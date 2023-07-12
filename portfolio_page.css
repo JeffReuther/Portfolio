@@ -1,0 +1,88 @@
+/* Viewport attributes. */
+html {
+  background-color: #f3f3f3;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+color: #f44274;
+}
+
+a:active {
+color: #96455c;
+}
+
+p {
+  color: #161616;
+  font-size: 18px;
+}
+
+#name {
+  top: 0;
+  padding: 1em 0em 0em 1em;
+  font-size: 24px;
+}
+
+#under-name {
+  font-size: 20px;
+  color: #929292;
+  padding: 0em 0em 0em 1.5em;
+}
+
+#nav {
+  background-color: #f1f1f1;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  width: 10%;
+  height: 100%;
+}
+
+#main-body {
+  height: 100%;
+  width: 90%;
+  position: relative;
+  margin: 0 0 0 5%;
+  font-family: public_sansregular, serif;
+  font-size: 18px;
+  margin-top: 100px;
+}
+
+#first-row, #second-row, #third-row {
+  display: flex;
+  /*border: 1px solid green; */
+  padding: 2em 10em 0em 5em;
+}
+
+#first-row {
+  line-height: 25px;
+}
+
+.divided-right {
+  /*border: 1px solid green;*/
+  padding: 0em 2em 0em 0em;
+  width: 33%;
+}
+
+#hero-photo {
+  width: 25%;
+  float: left;
+  position: relative;
+  margin-left: 5%;
+}
+
+#canvas {
+  width: 200px;
+  height: 200px;
+}
+
+#footer {
+  bottom: 0;
+}
+
+.footer-children {
+  display: inline-block;
+}
