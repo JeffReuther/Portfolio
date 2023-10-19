@@ -1,72 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- For the sake of demonstration, I decided to not minify the HTML.-->
 <head>
-  <title>Jeff Reuther Personal Portfolio</title>
-  <meta charset="utf-8" content="width=device-width, initial-scale=1.0" description="Jeffrey Reuther Personal Portfolio Page" keywords="Jeffrey Reuther, portfolio, web developer">
+  <title>Jeffrey Reuther Personal Portfolio</title>
+  <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1" description="Jeffrey Reuther Personal Portfolio Page" keywords="Jeffrey Reuther, portfolio, web developer">
   <link rel="stylesheet" type="text/css" href="portfolio_page.css">
 </head>
 
 <body id="body">
-    <div id="main-body">
-      <!-- Main content starts here. -->    
-      <main id="main">
-        <div id="nav">
-          <div id="name">Jeffrey Reuther</div>
-          <div id="under-name">Developer</div>
-        </div>
-        <section id="first-row">
-          <div>
-            <p>
-              Hello! Thanks for visiting my portfolio site. Here is a bit of info about me:
-              <br />
-              <br />
-              • I'm a self-taught JavaScript developer and I'm looking to help build and maintain codebases.
-              <br />
-              • I've been working at Lockheed Martin for the past three years as an assembler.
-              <br />
-              • My wife and I were recently married and are looking to settle down.
-            </p>
-            <p>
-              Please find my projects and resume below.
-            </p>
-        </div>
-        <img src="portfolio_page_photos/hero.jpg" alt="A photo of myself." id="hero-photo"></img>
-        </section>
+  <div id="page-container">
+    <nav id="homepage-nav" class="nav">
+      <a href="portfolio_page.html" class="nav-title"><h1>Jeffrey Reuther</h1></a>
+      <p class="nav-link-content">
+        <a href="#first-row"><button class="nav-link"> Intro </button></a> <br />
+        <a href="#second-row"><button class="nav-link"> Skills </button></a> <br />
+        <a href="#third-row"><button class="nav-link"> Projects </button></a>
+        <a href="#fourth-row"><button class="nav-link"> Experience </button></a>
+        <a href="#fifth-row"><button class="nav-link"> Contact </button></a>
+      </p>
+    </nav>
+    <main id="main">
+      <section id="first-row" class="section-content">
+        <p class="section-header">Welcome!</p>
+        <p>
+          <br />
+          Thanks for visiting my portfolio site. Here is a bit of info about me:
+          <br />
+          <br />
+          ○ I'm a self-taught React developer. <br />
+          ○ I work and live in North-Eastern Pennsylvania with my wife. <br />
+          ○ I love open-source projects and debugging.
+        </p>
+        <p>
+          Please find my projects and breadth of experience below.
+        </p>
+      </section>
 
-        <section id="second-row">
-          <div class="divided-right">
-            <p>My skills</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <br />
-            <br />
-            Find my portfolio <a href="portfolio.html">here</a>. <br /> <br />
-            Find my LinkedIn profile <a href="https://www.linkedin.com/in/jeffreyreuther/">here.</a>
-            </p>
-          </div>
-          <div class="divided-right">
-            <p>Quick brief of my portfolio</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-          <div>
-            <p>Resume</p>
-            
-          </div>
-          <div>
-        </section>
+      <img src="portfolio_page_photos/placeholder_portrait.png" alt="A photo of myself." id="hero-photo"></img>
 
-        <section id="third-row">
-          <div>
-            <p>Let's talk</p>
-            <p>Feel free to shoot me an email at reutherjeff@gmail.com.</p>
-          </div>
-        </section>
-      </main>
-      <footer id="footer">
-        <p class="footer-children">Made with &hearts; by Jeff</p>
-        <p class="footer-children">&copy; 2022 Jeffrey Reuther</p>
-      </footer>
-    </div>
+      <section id="second-row" class="section-content">
+        <p class="section-header">Skills</p>
+        <ul id="second-row-flex">
+          <li class="second-flex-child">
+            <div class="flex-title">Front-end</div>
+            <div class="flex-content">
+              My bread and butter. I wrote this website in HTML and CSS, but my real love is JavaScript. Hence, why I learned React. <br /> <br />
+              I love the challenge of figuring out a codebase piece-by-piece.
+            </div>
+          </li>
+          <li class="second-flex-child">
+            <div class="flex-title">Back-end</div>
+            <div class="flex-content">Node.js, git, bash</div>
+          </li>
+          <li class="second-flex-child">
+            <div class="flex-title">Other interests</div>
+            <div class="flex-content">Photoshop, writing</div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="third-row" class="section-content">
+        <p class="section-header">Projects</p>
+        <ul id="third-row-flex">
+          <li class="third-flex-child">
+            <div class="flex-title">Todo app</div>
+            <div class="flex-content"></div>
+          </li>
+          <li class="third-flex-child">
+            <div class="flex-title">Game of Life app</div>
+            <div class="flex-content"><a href="game_of_life/portfolio_game.html"><img src="portfolio_page_photos/life-app-thumbnail.JPG" alt="A thumbnail for my Conway's Game of Life app." id="life-app-thumbnail"></a></div>
+          </li>
+          <li class="third-flex-child">
+            <div class="flex-title">Calculator app</div>
+            <div class="flex-content"><a href="calc/portfolio_calc.html"><img src="portfolio_page_photos/calc-app-thumbnail.JPG" alt="A thumbnail for my calculator app." id="calc-app-thumbnail"></a></div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="fourth-row" class="section-content">
+        <p class="section-header">Experience</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sodales ipsum eget tempor mollis.
+          Donec mollis mauris hendrerit eleifend lacinia. Donec tincidunt lectus quis consectetur tristique.
+          Nullam sollicitudin porta mauris, et sagittis nulla facilisis nec. Nullam ut fringilla ante, elementum eleifend magna.
+          Proin in leo eu turpis scelerisque euismod eget eget purus. Duis gravida semper erat a fringilla.</p>
+      </section>
+
+      <section id="fifth-row" class="section-content">
+        <p class="section-header">Contact</p>
+        Find my LinkedIn profile <a href="https://www.linkedin.com/in/jeffreyreuther/">here.</a>
+        </p>
+        <p>Quick brief of my portfolio</p>
+        <p>Feel free to shoot me an email at reutherjeff@gmail.com.</p>
+      </section>
+    </main>
+
+    <footer id="footer">Jeffrey Reuther 2023</footer>
+  </div>
 </body>
 
 </html>
