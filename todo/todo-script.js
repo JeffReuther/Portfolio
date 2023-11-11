@@ -21,10 +21,11 @@ const todoList = document.getElementById("todo-list");
 const newTodoInput = document.getElementById("newTodo");
 const addButton = document.getElementById("addTodo");
 
-function render(todoText, index) {
+function render(todoText) {
   const todo = document.createElement("li");
   todo.completed = false;
   todo.textContent = `${isCompleted(todo)} ${todoText} `;
+  todo.setAttribute("class", "todo-item");
 
   const toggleButton = document.createElement("button");
   toggleButton.textContent = "Toggle";
@@ -42,9 +43,8 @@ function render(todoText, index) {
 function addTodo() {
   const newTodoText = newTodoInput.value.trim();
   if (newTodoText) {
-    todoArray.push(newTodoText);
     newTodoInput.value = "";
-    render(newTodoText, todoArray.length - 1);
+    render(newTodoText);
   }
 }
 

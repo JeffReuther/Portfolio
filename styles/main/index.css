@@ -54,6 +54,7 @@ td {
 
 .nav-link-content-mobile {
   color: #e0e0e0;
+  margin: 0;
 }
 
 .nav {
@@ -124,6 +125,14 @@ td {
 .signs-vertical {
   grid-column: 4;
   grid-row: 2 / span 3;
+}
+
+.todo-item {
+  height: 40px;
+  line-height: 40px;
+  width: 60%;
+  background-color: white;
+  text-align: center;
 }
 
 #body {
@@ -244,6 +253,7 @@ td {
   float: left;
   padding: 0 0 0 17%;
   margin-top: 5em;
+  width: 100%;
 }
 
 #todo-list {
