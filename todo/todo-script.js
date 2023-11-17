@@ -16,19 +16,22 @@ so the benefit of initializing this in the render function is passing relevant p
 
 */
 
-const todoArray = [];
 const todoList = document.getElementById("todo-list");
 const newTodoInput = document.getElementById("newTodo");
 const addButton = document.getElementById("addTodo");
 
 function render(todoText) {
   const todo = document.createElement("li");
+  //const text = document.createTextNode(`${isCompleted(todo)} ${todoText} `);
   todo.completed = false;
-  todo.textContent = `${isCompleted(todo)} ${todoText} `;
   todo.setAttribute("class", "todo-item");
 
-  const toggleButton = document.createElement("button");
-  toggleButton.textContent = "Toggle";
+  const text = document.createElement("div");
+  text.setAttribute("id", "text");
+  text.appendChild(document.createTextNode(`${isCompleted(todo)} ${todoText} `));
+
+  const toggleButton = document.createElement("input");
+  toggleButton.setAttribute("type", "checkbox");
   toggleButton.addEventListener("click", () => toggleTodo(todo, todoText));
 
   const deleteButton = document.createElement("button");
@@ -36,8 +39,9 @@ function render(todoText) {
   deleteButton.addEventListener("click", (event) => deleteTodo(todo, event));
 
   todoList.appendChild(todo);
-  todo.appendChild(deleteButton);
   todo.appendChild(toggleButton);
+  todo.appendChild(text);
+  todo.appendChild(deleteButton);
 }
 
 function addTodo() {
@@ -54,7 +58,8 @@ function deleteTodo(todo) {
 
 function toggleTodo(todo, todoText) {
   todo.completed = !todo.completed;
-  todo.firstChild.textContent = `${isCompleted(todo)} ${todoText} `;
+  //todo.firstChild.textContent = `${isCompleted(todo)} ${todoText} `;
+  todo.getElementById("text").textConent = `${isCompleted(todo)} ${todoText} `;
 }
 
 function isCompleted(todo) {
