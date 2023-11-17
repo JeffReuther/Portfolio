@@ -63,37 +63,36 @@ td {
   padding: 1% 0 0 0;
   top: 0;
   left: 0;
-  background-color: #16142d;
+  background-color: #3e4763;
   height: 100%;
-  width: 15%;
+  max-width: 275px;
 }
 
 .nav-link {
   color: #e0e0e0;
-  background-color: #16142d;
-  width: 100%;
-  margin: 15% 0 0 0;
+  background-color: #3e4763;
+  width: 38%;
+  margin: 15% 0 0 29%;
   height: 2.5em;
   font-size: 18px;
-  border: none;
+  border: 2px solid #3e4763;
 }
 
 .nav-link-mobile {
   color: #e0e0e0;
-  background-color: #16142d;
+  background-color: #3e4763;
   width: 100%;
   height: 2.5em;
   font-size: 18px;
-  border: none;
 }
 
 .nav-link:hover {
-  background-color: #535e8f;
+  border-bottom: 2px solid #e0e0e0;
   cursor: pointer;
 }
 
 .nav-link-mobile:hover {
-  background-color: #535e8f;
+  border-bottom: 2px solid #e0e0e0;
   cursor: pointer;
 }
 
@@ -103,7 +102,7 @@ td {
 
 .section-header {
   color: #e0e0e0;
-  background-color: #16142d;
+  background-color: #3e4763;
   max-width: 6em;
   border-radius: 6px;
   padding: 3px;
@@ -120,6 +119,13 @@ td {
 
 .button:hover {
   background-color: #e6e6e6;
+}
+
+.main-body {
+  float: left;
+  padding: 0 0 0 300px;
+  margin-top: 5em;
+  max-width: 100%;
 }
 
 .signs-vertical {
@@ -151,11 +157,7 @@ td {
 }
 
 #main {
-  float: left;
-  padding: 0 0 0 15%;
   margin: 0 0 10em 0;
-  max-width: 80%;
-  margin-top: 5em;
   display: grid;
   row-gap: 20px;
   grid-template-columns: 1fr;
@@ -167,17 +169,11 @@ td {
                        "fifth-row   fifth-row";
 }
 
-#main-game {
-  float: left;
-  padding: 0 0 0 17%;
-  margin-top: 5em;
-}
-
 #canvas {
   border: 3px solid rgb(65, 65, 65);
   margin: 0;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -241,19 +237,9 @@ td {
 }
 
 #calc-main-body {
-  float: left;
-  padding: 0 0 0 17%;
-  margin-top: 5em;
   display: grid;
   grid-template-columns: 82px 82px 82px 82px;
   grid-template-rows: 40px 52px 52px 52px 52px;
-}
-
-#todo-main-body {
-  float: left;
-  padding: 0 0 0 17%;
-  margin-top: 5em;
-  width: 100%;
 }
 
 #todo-list {
@@ -304,9 +290,9 @@ td {
   text-align: center;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1024px) {
   #main  {
-    padding: 0 0 0 0;
+    padding: 0 0 0 300px;
     display: grid;
     place-items: center;
     grid-template-columns: 100%;
@@ -316,6 +302,40 @@ td {
                           "third-row"
                           "fourth-row"
                           "fifth-row";
+  }
+
+  #first-row, #hero-photo, #second-row, #third-row, #fourth-row, #fifth-row {
+    grid-column: 1 / 2;
+  }
+
+  #first-row {
+    grid-row: 2 / 3;
+  }
+
+  #second-row {
+    grid-row: 3 / 4;
+  }
+
+  #third-row {
+    grid-row: 4 / 5;
+  }
+
+  #fourth-row {
+    grid-row: 5 / 6;
+  }
+
+  #fifth-row {
+    grid-row: 6 / 7;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-body {
+    padding: 50px;
+  }
+
+  #main  {
+    padding: 0;
   }
 
   #homepage-nav, #calc-nav, #game-nav, #todo-nav {
@@ -329,6 +349,10 @@ td {
     width: 100%;
     top: 0;
     left: 0;
+  }
+
+  #canvas {
+    left: 10%;
   }
 
   #first-row, #hero-photo, #second-row, #third-row, #fourth-row, #fifth-row {
