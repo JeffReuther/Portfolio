@@ -1,6 +1,3 @@
-// Maybe instead of creating the elements at event runtime, I can create a
-// class prototype that creates a new object and inserts the elements
-
 /*
 Add button:
 initialized in the event listener code instead of separate function
@@ -22,17 +19,17 @@ const addButton = document.getElementById("addTodo");
 
 function render(todoText) {
   const todo = document.createElement("li");
-  //const text = document.createTextNode(`${isCompleted(todo)} ${todoText} `);
-  todo.completed = false;
   todo.setAttribute("class", "todo-item");
+  todo.completed = false;
 
-  const text = document.createElement("div");
-  text.setAttribute("id", "text");
-  text.appendChild(document.createTextNode(`${isCompleted(todo)} ${todoText} `));
+  // In case I ever need to update the text via toggle.
+  const text = document.createElement("span");
+  text.setAttribute("class", "text");
+  text.appendChild(document.createTextNode(todoText));
 
   const toggleButton = document.createElement("input");
   toggleButton.setAttribute("type", "checkbox");
-  toggleButton.addEventListener("click", () => toggleTodo(todo, todoText));
+  toggleButton.addEventListener("click", () => toggleTodo(todo));
 
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
@@ -56,17 +53,12 @@ function deleteTodo(todo) {
   todoList.removeChild(todo);
 }
 
-function toggleTodo(todo, todoText) {
+function toggleTodo(todo) {
   todo.completed = !todo.completed;
-  //todo.firstChild.textContent = `${isCompleted(todo)} ${todoText} `;
-  todo.getElementById("text").textConent = `${isCompleted(todo)} ${todoText} `;
-}
-
-function isCompleted(todo) {
   if (todo.completed === false) {
-    return "(   )";
+    todo.getElementsByClassName("text")[0].style.textDecoration = "solid";
   } else {
-    return "( X )";
+    todo.getElementsByClassName("text")[0].style.textDecoration = "line-through";
   }
 }
 
