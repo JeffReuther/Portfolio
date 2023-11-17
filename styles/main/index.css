@@ -329,7 +329,7 @@ td {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 576px), (max-height: 600px) {
   .main-body {
     padding: 50px;
   }
