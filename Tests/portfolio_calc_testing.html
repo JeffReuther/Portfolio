@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Jeffrey Reuther Personal Portfolio </title>
+    <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../styles/main/index.css">
+  </head>
+
+  <body id="body">
+    <section id="calc-main-body" class="main-body">
+      <input type="text" id="calc-input">
+      <button type="text" class="button" id="zero">0</button>
+      <button type="text" class="button" id="one">1</button>
+      <button type="text" class="button" id="two">2</button>
+      <button type="text" class="button" id="three">3</button>
+      <button type="text" class="button" id="four">4</button>
+      <button type="text" class="button" id="five">5</button>
+      <button type="text" class="button" id="six">6</button>
+      <button type="text" class="button" id="seven">7</button>
+      <button type="text" class="button" id="eight">8</button>
+      <button type="text" class="button" id="nine">9</button>
+      <button type="text" class="button" id="add-button">+</button>
+      <button type="text" class="button" id="subtract-button">-</button>
+      <button type="text" class="button" id="multiply-button">x</button>
+      <button type="text" class="button" id="divide-button">/</button>
+      <button type="text" class="button" id="equals-button">=</button>
+      <button type="text" class="button" id="clear-button">C</button>
+    </section>
+  </body>
+  <script src="calc_testing.js"></script>
+  <script src="simpletest.js"></script>
+</html>
+
+<script>
+ tests({
+
+
+'If number buttons are pressed multiple times, it should create that number': function() {
+  inputNumber(1);
+  inputNumber(1);
+  eq(input.value, '11');
+  inputSign('c');
+},
+'If the plus sign is pressed, it should display the plus sign': function() {
+  inputNumber(1);
+  inputSign('+');
+  eq(input.value, '1+');
+  inputSign('c');
+},
+'If the equals button is pressed and the plus sign is prepped, it should add two numbers': function() {
+  inputNumber(1);
+  inputSign('+');
+  inputNumber(1);
+  inputSign('=');
+  eq(input.value, '2');
+  inputSign('c');
+},
+'If the equals button is pressed and the subtract sign is prepped, it should subtract two numbers': function() {
+  inputNumber(1);
+  inputSign('-');
+  inputNumber(1);
+  inputSign('=');
+  eq(input.value, '0');
+  inputSign('c');
+},
+'If the equals button is pressed and the multiply sign is prepped, it should multiply two numbers': function() {
+  inputNumber(2);
+  inputSign('x');
+  inputNumber(2);
+  inputSign('=');
+  eq(input.value, '4');
+  inputSign('c');
+},
+'If the equals button is pressed and the divide sign is prepped, it should divide two numbers': function() {
+  inputNumber(4);
+  inputSign('/');
+  inputNumber(2);
+  inputSign('=');
+  eq(input.value, '2');
+  inputSign('c');
+},
+'If a number repeats infinitely, it should cut off after 20 numbers': function() {
+  inputNumber(8);
+  inputSign('/');
+  inputNumber(6);
+  inputSign('=');
+  eq(input.value, '1.3333333333333333');
+  inputSign('c');
+},
+'If subtracing a higher number from a lower number, the result should be negative': function() {
+  inputNumber(1);
+  inputSign('-');
+  inputNumber(2);
+  inputSign('=');
+  eq(input.value, '-1');
+  inputSign('c');
+},
+'If the clear button is pressed, it should clear the display': function() {
+  inputNumber(1);
+  inputNumber(2);
+  inputSign('+');
+  inputSign('c');
+  eq(input.value, '');
+  inputSign('c');
+},
+'If the plus sign is pressed first, zero should be the resultant first number': function() {
+  inputSign('+');
+  inputNumber('2');
+  eq(input.value, '0+2');
+  inputSign('c');
+},
+'If a sign button is pressed while a calculation can occur, it should do the calculation and update the display': function() {
+  inputNumber(1);
+  inputSign('-');
+  inputNumber(1);
+  inputSign('+');
+  eq(input.value, '0+');
+  inputSign('c');
+}
+
+ });
+</script>
