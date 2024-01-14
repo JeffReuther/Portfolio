@@ -5,7 +5,7 @@
 }
 
 html {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 p {
@@ -18,12 +18,13 @@ td {
   height: 25px;
 }
 
+/* Second and third row selectors. */
 .second-flex-child {
   width: 15em;
   height: 15em;
   margin: auto;
   color: #1f1f1f;
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 .third-flex-child {
@@ -31,7 +32,7 @@ td {
   height: 15em;
   margin: auto;
   color: #1f1f1f;
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 .flex-title {
@@ -41,19 +42,20 @@ td {
   text-align: center;
 }
 
+/* Nav styles begin here. */
 .nav-title {
-  color: #e0e0e0;
+  color: #f0f0f0;
   text-align: center;
   text-decoration: none;
 }
 
 .nav-link-content {
   margin: 50% 0 0 0;
-  color: #e0e0e0;
+  color: #f0f0f0;
 }
 
 .nav-link-content-mobile {
-  color: #e0e0e0;
+  color: #f0f0f0;
   margin: 0;
 }
 
@@ -63,46 +65,47 @@ td {
   padding: 1% 0 0 0;
   top: 0;
   left: 0;
-  background-color: #3e4763;
+  background-color: #1b1b1b;
   height: 100%;
   max-width: 275px;
 }
 
 .nav-link {
-  color: #e0e0e0;
-  background-color: #3e4763;
+  color: #f0f0f0;
+  background-color: #1b1b1b;
   width: 38%;
   margin: 15% 0 0 29%;
   height: 2.5em;
   font-size: 18px;
-  border: 2px solid #3e4763;
+  border: 2px solid #1b1b1b;
 }
 
 .nav-link-mobile {
-  color: #e0e0e0;
-  background-color: #3e4763;
+  color: #f0f0f0;
+  background-color: #1b1b1b;
   width: 100%;
   height: 2.5em;
   font-size: 18px;
 }
 
 .nav-link:hover {
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #f0f0f0;
   cursor: pointer;
 }
 
 .nav-link-mobile:hover {
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #f0f0f0;
   cursor: pointer;
 }
 
+/* Each main body row (first, second, third) is also a section. */
 .section-content {
   padding: 0 2em 0 2em;
 }
 
 .section-header {
-  color: #e0e0e0;
-  background-color: #3e4763;
+  color: #f0f0f0;
+  background-color: #1b1b1b;
   max-width: 6em;
   border-radius: 6px;
   padding: 3px;
@@ -121,6 +124,7 @@ td {
   background-color: #e6e6e6;
 }
 
+/* Each main body (home, todo, game, calc) is offset from the navbar. */
 .main-body {
   float: left;
   padding: 0 0 0 300px;
@@ -156,6 +160,7 @@ td {
   display: none;
 }
 
+/* Main body attributes start here. */
 #main {
   margin: 0 0 10em 0;
   display: grid;
@@ -169,6 +174,7 @@ td {
                        "fifth-row   fifth-row";
 }
 
+/* Features in game app. */
 #canvas {
   border: 3px solid rgb(65, 65, 65);
   margin: 0;
@@ -179,6 +185,7 @@ td {
   transform: translateY(-50%);
 }
 
+/* Sets up grid for each row. */
 #first-row {
   min-width: 20em;
   grid-area: first-row;
@@ -231,6 +238,12 @@ td {
   grid-column: 2 / 4;
 }
 
+#fifth-row {
+  grid-area: fifth-row;
+  grid-row: 5 / 6;
+  grid-column: 2 / 4;
+}
+
 #life-app-thumbnail, #calc-app-thumbnail, #todo-app-thumbnail {
   max-height: 250px;
   max-width: 100%;
@@ -246,10 +259,12 @@ td {
   list-style: none;
 }
 
+/* Alert on todo app page. */
 #alert {
   font-size: 14px;
 }
 
+/* Calc app selectors start here. */
 #calc-input {
   font-size: 25px;
   border: none;
@@ -274,12 +289,6 @@ td {
   grid-column: 4;
   grid-row-start: 4;
   grid-row-end: 5;
-}
-
-#fifth-row {
-  grid-area: fifth-row;
-  grid-row: 5 / 6;
-  grid-column: 2 / 4;
 }
 
 #footer {
@@ -329,7 +338,7 @@ td {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 576px), (max-height: 600px) {
   .main-body {
     padding: 50px;
   }
