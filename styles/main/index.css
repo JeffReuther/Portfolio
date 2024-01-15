@@ -140,9 +140,23 @@ td {
 .todo-item {
   height: 40px;
   line-height: 40px;
-  width: 40vw;
+  width: 30vw;
   background-color: white;
   text-align: center;
+}
+
+.todo-item > * {
+  float: left;
+  margin: 10px 2% 0 10px;
+}
+
+.todo-text {
+  margin: 0 2% 0 0;
+}
+
+.todo-toggle-button {
+  width: 25px;
+  height: 25px;
 }
 
 #body {
@@ -344,7 +358,7 @@ td {
   }
 
   .todo-item {
-    width: 80vw;
+    width: 100vw;
   }
 
   #main  {

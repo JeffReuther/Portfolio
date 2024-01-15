@@ -24,15 +24,17 @@ function render(todoText) {
 
   // In case I ever need to update the text via toggle.
   const text = document.createElement("span");
-  text.setAttribute("class", "text");
+  text.setAttribute("class", "todo-text");
   text.appendChild(document.createTextNode(todoText));
 
   const toggleButton = document.createElement("input");
   toggleButton.setAttribute("type", "checkbox");
+  toggleButton.setAttribute("class", "todo-toggle-button");
   toggleButton.addEventListener("click", () => toggleTodo(todo));
 
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
+  deleteButton.setAttribute("class", "todo-delete-button");
   deleteButton.addEventListener("click", (event) => deleteTodo(todo, event));
 
   todoList.appendChild(todo);
@@ -56,9 +58,9 @@ function deleteTodo(todo) {
 function toggleTodo(todo) {
   todo.completed = !todo.completed;
   if (todo.completed === false) {
-    todo.getElementsByClassName("text")[0].style.textDecoration = "solid";
+    todo.getElementsByClassName("todo-text")[0].style.textDecoration = "solid";
   } else {
-    todo.getElementsByClassName("text")[0].style.textDecoration = "line-through";
+    todo.getElementsByClassName("todo-text")[0].style.textDecoration = "line-through";
   }
 }
 
