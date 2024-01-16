@@ -2,9 +2,11 @@
     // The hint was the set of arrays to represent a grid.
     // Printed out a set of arrays to a specific height and width.
 // Wrote the random_state function.
-    // The hint was randomization of numbers.
+    // The hint was randomization of numbers using built-in functions.
 // Wrote the render function.
     // The hint was a visualization of how it should look.
+// Wrote next_board_state function.
+    // 
 
 const life = function() {
     let board = [];
@@ -35,7 +37,7 @@ const life = function() {
                 localStorage.setItem('board', stringifyBoardObject);
                 initialBoardState = JSON.parse(stringifyBoardObject);
                 
-                next_board_state(initialBoardState);
+                nextBoardState(initialBoardState);
                 if (--iterationInput) loop(iterationInput);
             }, 200);
             playButton.disabled = true;
@@ -65,163 +67,61 @@ const life = function() {
     
         render();
     }
-    
-    next_board_state = function(initialBoardState) {
-        let currentSurroundingTotal;
-    
-        for (let m = 0; m < initialBoardState.length; m++) {
-            for (let n = 0; n < initialBoardState[m].length; n++) {
-                if (m === 0 && n === 0) {
-                    /*
-                        O # #
-                        # # #
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m][n + 1] + initialBoardState[m + 1][n] + initialBoardState[m + 1][n + 1];
-                    // If top-left is alive, if it's underpopulated, it becomes dead.
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    // If top-left is dead, if it's reproduced, it becomes alive.
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (m === 0 && n === initialBoardState[m].length - 1) {
-                    /*
-                        # # O
-                        # # #
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m][n - 1] + initialBoardState[1][n - 1] + initialBoardState[m + 1][n];
-                    // If top-right is alive, if it's underpopulated, it becomes dead.
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    // If top-right is dead, if it's reproduced, it becomes alive.
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (m === initialBoardState.length - 1 && n === 0) {
-                    /*
-                        # # #
-                        # # #
-                        O # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m - 1][n] + initialBoardState[m - 1][n + 1] + initialBoardState[m][n + 1];
-                    // If bottom-left is alive, if it's underpopulated, it becomes dead.
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    // If bottom-left is dead, if it's reproduced, it becomes alive.
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (m === initialBoardState.length - 1 && n === initialBoardState[m].length - 1) {
-                    /*
-                        # # #
-                        # # #
-                        # # O 
-                    */
-                    currentSurroundingTotal = initialBoardState[m - 1][n - 1] + initialBoardState[m - 1][n] + initialBoardState[m][n - 1];
-                    // If bottom-right is alive, if it's underpopulated, it becomes dead.
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    // If bottom-right is dead, if it's reproduced, it becomes alive.
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (m === 0) {
-                    /*
-                        # O #
-                        # # #
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m][n - 1] + initialBoardState[m][n + 1] + initialBoardState[m + 1][n - 1] + initialBoardState[m + 1][n] + initialBoardState[m + 1][n + 1];
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1 && currentSurroundingTotal > 3) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (n === 0) {
-                    /*
-                        # # #
-                        O # #
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m - 1][n] + initialBoardState[m - 1][n + 1] + initialBoardState[m][n + 1] + initialBoardState[m + 1][n + 1] + initialBoardState[m + 1][n];
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1 && currentSurroundingTotal > 3) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (n === initialBoardState[m].length - 1) {
-                    /*
-                        # # #
-                        # # O
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m - 1][n] + initialBoardState[m - 1][n - 1] + initialBoardState[m][n - 1] + initialBoardState[m + 1][n - 1] + initialBoardState[m + 1][n];
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1 && currentSurroundingTotal > 3) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else if (m === initialBoardState.length - 1) {
-                    /*
-                        # # #
-                        # # #
-                        # O # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m][n - 1] + initialBoardState[m - 1][n - 1] + initialBoardState[m - 1][n] + initialBoardState[m - 1][n + 1] + initialBoardState[m][n + 1];
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1 && currentSurroundingTotal > 3) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                } else {
-                    /*
-                        # # #
-                        # O #
-                        # # # 
-                    */
-                    currentSurroundingTotal = initialBoardState[m - 1][n - 1] + initialBoardState[m - 1][n] + initialBoardState[m - 1][n + 1] + initialBoardState[m][n - 1] + initialBoardState[m][n + 1] + initialBoardState[m + 1][n - 1] + initialBoardState[m + 1][n] + initialBoardState[m + 1][n + 1];
-                    if (initialBoardState[m][n] === 1 && currentSurroundingTotal < 2) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 0 && currentSurroundingTotal === 3) {
-                        board[m][n] = 1;
-                    } else if (initialBoardState[m][n] === 1 && currentSurroundingTotal > 3) {
-                        board[m][n] = 0;
-                    } else if (initialBoardState[m][n] === 1) {
-                        board[m][n] = 1;
-                    }
-                }
-    
+
+    currentSurroundingTotal = function(board, r, c) { // r = row number, c = column number
+        let total = 0;
+        let surroundingArray = [];
+
+        // If the cells near each cell exist, push one or zero to the array.
+            // If they do not exist, 'undefined' is pushed to the array.
+        if (board[r - 1]) {
+            surroundingArray.push(board[r - 1]);            // top left
+            surroundingArray.push(board[r - 1][c]);         // top middle
+            surroundingArray.push(board[r - 1][c + 1]);     // top right
+        }
+        if (board[r + 1]) {
+            surroundingArray.push(board[r + 1][c - 1]);     // bottom left
+            surroundingArray.push(board[r + 1][c]);         // bottom middle
+            surroundingArray.push(board[r + 1][c + 1]);     // bottom right
+        }
+        surroundingArray.push(board[r][c - 1]);             // middle left
+        surroundingArray.push(board[r][c + 1]);             // middle right
+
+        // If a cell is not undefined, add its number to the total.
+        for (let i = 0; i < surroundingArray.length; i++) {
+            if (typeof surroundingArray[i] === 'number') {
+                total += surroundingArray[i];
             }
         }
-        render();
+        return total;
     }
-    
+
+    stateChecker = function(board, r, c, total) {
+        if (board[r][c] === 1) {            // If the cell is alive,
+            if (total < 2 || total > 3) {   // if less than 2 or greater than 3 live neighbors, it becomes dead;
+                return 0;
+            } else {
+                return 1;                   // otherwise, it stays alive.
+            }
+        } else {                            // If the cell is dead,
+            if (total === 3) {              // if exactly three live neighbors, it becomes alive;
+                return 1;
+            } else {
+                return 0;                   // otherwise, it stays dead.
+            }
+        }
+    }
+
+    nextBoardState = function(initialBoardState) {
+        for (let row = 0; row < initialBoardState.length; row++) {
+            for (let column = 0; column < initialBoardState[row].length; column++) {
+                let total = currentSurroundingTotal(initialBoardState, row, column);
+                board[row][column] = stateChecker(initialBoardState, row, column, total);
+                render();
+            }
+        }
+    }
+
     render = function() {
         let l = 0;
 
