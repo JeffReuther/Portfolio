@@ -211,7 +211,7 @@ td {
   grid-area: hero-photo;
   grid-row: 1 / 2;
   grid-column: 3 / 4;
-  max-height: 20em;
+  max-height: 15em;
   float: left;
 }
 
@@ -358,7 +358,7 @@ td {
   }
 
   .todo-item {
-    width: 100vw;
+    width: 100%;
   }
 
   #main  {
@@ -379,7 +379,9 @@ td {
   }
 
   #canvas {
-    left: 10%;
+    position: absolute;
+    top: 250px;
+    left: 50px;
   }
 
   #first-row, #hero-photo, #second-row, #third-row, #fourth-row, #fifth-row {

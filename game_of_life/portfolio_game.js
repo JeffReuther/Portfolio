@@ -1,12 +1,14 @@
+// Devlog sequence:
 // Wrote the dead_state function.
     // The hint was the set of arrays to represent a grid.
     // Printed out a set of arrays to a specific height and width.
-// Wrote the random_state function.
+// Wrote the randomState function.
     // The hint was randomization of numbers using built-in functions.
 // Wrote the render function.
     // The hint was a visualization of how it should look.
-// Wrote next_board_state function.
-    // 
+// Wrote nextBoardState function.
+// Wrote currentSurroundingTotal and stateChecker.
+    // Refactored these from algorithmic method to a functional method.
 
 const life = function() {
     let board = [];
@@ -20,7 +22,7 @@ const life = function() {
 // If this is the first time life is run,
         if (resumeButtonClicked === false) {
             context.clearRect(0, 0, canvas.width, canvas.height);
-            random_state(widthInput, heightInput);
+            randomState(widthInput, heightInput);
         } else {
 // Get the board via local storage.
             board = JSON.parse(localStorage.getItem('board'));
@@ -39,7 +41,7 @@ const life = function() {
                 
                 nextBoardState(initialBoardState);
                 if (--iterationInput) loop(iterationInput);
-            }, 200);
+            }, 75);
             playButton.disabled = true;
             resumeButton.disabled = true;
         })(iterationInput);
@@ -47,7 +49,7 @@ const life = function() {
 
 // Builds the array (board) of variable width and height,
     // filled with rows of arrays, filled with 1's and 0's.
-    random_state = function(width, height) {
+    randomState = function(width, height) {
         let variableRow = [];
     
         for (let j = 0; j < height; j++) {
@@ -116,6 +118,7 @@ const life = function() {
         for (let row = 0; row < initialBoardState.length; row++) {
             for (let column = 0; column < initialBoardState[row].length; column++) {
                 let total = currentSurroundingTotal(initialBoardState, row, column);
+                // Mutate the array to include the new square.
                 board[row][column] = stateChecker(initialBoardState, row, column, total);
                 render();
             }
@@ -154,6 +157,7 @@ const life = function() {
     init();
 };
 
+// Sets up the canvas UI controls.
 let heightInputField = document.getElementById("height-input");
 let widthInputField = document.getElementById("width-input");
 let iterationInputField = document.getElementById("iteration-input");
