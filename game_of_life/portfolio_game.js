@@ -10,6 +10,8 @@
 // Wrote currentSurroundingTotal and stateChecker.
     // Refactored these from algorithmic method to a functional method.
 
+"use strict";
+
 const life = function() {
     let board = [];
     let initialBoardState = [];

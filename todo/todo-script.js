@@ -13,6 +13,8 @@ so the benefit of initializing this in the render function is passing relevant p
 
 */
 
+"use strict";
+
 const todoList = document.getElementById("todo-list");
 const newTodoInput = document.getElementById("newTodo");
 const addButton = document.getElementById("addTodo");
