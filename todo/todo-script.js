@@ -15,9 +15,9 @@ so the benefit of initializing this in the render function is passing relevant p
 
 "use strict";
 
-const todoList = document.getElementById("todo-list");
-const newTodoInput = document.getElementById("newTodo");
-const addButton = document.getElementById("addTodo");
+var todoList = document.getElementById("todo-list");
+var newTodoInput = document.getElementById("newTodo");
+var addButton = document.getElementById("addTodo");
 
 function render(todoText) {
   const todo = document.createElement("li");

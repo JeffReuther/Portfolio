@@ -1,9 +1,9 @@
 "use strict";
 
-let store = [];
-let firstSign;
-let secondSign = false;
-const input = document.getElementById("calc-input");
+var store = [];
+var firstSign;
+var secondSign = false;
+var input = document.getElementById("calc-input");
 
 // Tentative updateStore function...
 
