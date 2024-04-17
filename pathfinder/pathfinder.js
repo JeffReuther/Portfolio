@@ -59,11 +59,10 @@ function pathfinder(length, height, start, goal) {
     const path = [];
     let current = goal;
     let currentIndex;
-    while (current !== start) {
-        // Look at the current (goal). Figure out which index it is.
-        // Compare that index to the same array in cameFrom (breadth[1]).
-        // Find the reached (breadth[0]) equivalent array. If it's not start, then repeat.
-        // breadth[0] = reached, breadth[1] = cameFrom
+    // Look at the current (goal). Figure out which index it is.
+    // Compare that index to the same array in cameFrom (breadth[1]).
+    // Find the reached (breadth[0]) equivalent array. If it's not start, then repeat.
+    while ((current[0] !== start[0]) || (current[1] !== start[1])) {
         // Finds the index of the current node.
         for (let i = 0; i < breadth[0].length; i++) {
             if (breadth[0][i][0] === current[0] && breadth[0][i][1] === current[1]) {
@@ -73,16 +72,16 @@ function pathfinder(length, height, start, goal) {
         }
         // For the entire length of the reached array.
         for (let j = 0; j < breadth[1].length; j++) {
+            // If we found the correct starting node, success!
+            if (start[0] === breadth[1][currentIndex][0] && start[1] === breadth[1][currentIndex][1]) {
+                return path;
+            }
             // If the cameFrom reference of the current node is found in the reached array.
             if (breadth[0][j][0] === breadth[1][currentIndex][0] && breadth[0][j][1] === breadth[1][currentIndex][1]) {
-                // If we found the correct starting node, success!
-                if (start[0] === breadth[1][currentIndex][0] && start[1] === breadth[1][currentIndex][1]) {
-                    path.push(breadth[0][j]);
-                    return path;
-                } else {
-                    path.push(breadth[0][j]);
-                    current = breadth[0][j];
-                }
+                // Continue the path and update the current node.
+                path.push(breadth[0][j]);
+                current = breadth[0][j];
+                break;
             }
         }
 
