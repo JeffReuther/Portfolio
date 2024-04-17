@@ -1,14 +1,3 @@
-// Sets up the grid.
-function createGrid(length, height) {
-    const allNodes = [];
-    for (let x = 0; x < length; x++) {
-        for (let y = 0; y < height; y++) {
-            allNodes.push([x,y]);
-        }
-    }
-    return allNodes;
-}
-
 // Returns an array of all possible grid nodes neighboring an input node. Four directions.
 function neighbors(node, length, height) {
     const dirs = [[1,0], [0,1], [-1,0], [0,-1]];
@@ -23,13 +12,13 @@ function neighbors(node, length, height) {
     return result;
 }
 
-function breadthSearch(length, height, grid) {
+function breadthSearch(length, height, start) {
     const reached = [];
     const frontier = [];
     const cameFrom = [];
     // Sets up the "starting" node; for now, top-left.
-    frontier.push(grid[0]);
-    reached.push(grid[0]);
+    frontier.push(start);
+    reached.push(start);
     while (!(frontier.length === 0)) {
         // As long as frontier is not zero, each neighbor will be compared and either added
             // to reached, if it's not reached yet, or discarded.
@@ -53,9 +42,8 @@ function breadthSearch(length, height, grid) {
 }
 
 function pathfinder(length, height, start, goal) {
-    const grid = createGrid(length, height);
     // breadth returns two arrays, one with all of the reached nodes, one with all of the cameFrom (reference) nodes.
-    const breadth = breadthSearch(length, height, grid);
+    const breadth = breadthSearch(length, height, start);
     const path = [];
     let current = goal;
     let currentIndex;
