@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+
+<script src="pathfinder_testing.js"></script>
+<script src="simpletest.js"></script>
+
+<script>
+  tests({
+
+'It should have a neighbors function which takes a node and returns bottom and right.': function() {
+  const result = neighbors([0,0], 2, 2) + '';
+  eq(result, '1,0,0,1');
+},
+'It should have a neighbors function which takes a node and returns top and left.': function() {
+  const result = neighbors([1,1], 2, 2) + '';
+  eq(result, '0,1,1,0');
+},
+'It should have a neighbors function which takes a node and returns all directions.': function() {
+  const result = neighbors([1,1], 3, 3) + '';
+  eq(result, '2,1,1,2,0,1,1,0');
+},
+'It should have a neighbors function which returns nothing if insufficient nodes are input.': function() {
+  const result = neighbors([0,0], 1, 1) + '';
+  eq(result, '');
+},
+'It should have a breadthSearch function which starts top-left and traverses all nodes.': function() {
+  const result = breadthSearch(2,2,[0,0]);
+  eq(result[0] + '', '1,0,0,1,1,1'); // reached nodes
+  eq(result[1] + '', '0,0,0,0,1,0'); // cameFrom nodes
+},
+'It should have a breadthSearch function which starts bottom-right and traverses all nodes.': function() {
+  const result = breadthSearch(2,2,[1,1]);
+  eq(result[0] + '', '0,1,1,0,0,0'); // reached nodes
+  eq(result[1] + '', '1,1,1,1,0,1'); // cameFrom nodes
+},
+'It should return only the path from the start node to the goal node.': function() {
+  const result = pathfinder(3,3,[0,0],[2,2]) + '';
+  eq(result, '0,0,1,0,2,0,2,1');
+},
+'If it encounters a wall, it should go around it.': function() {
+  fail();
+},
+'If it reaches a node, it should search for the next closest node.': function() {
+  fail();
+}
+
+  });
+</script>
