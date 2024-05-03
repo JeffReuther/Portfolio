@@ -201,7 +201,8 @@ td {
 
 /* Sets up grid for each row. */
 #first-row {
-  min-width: 20em;
+  min-width: 25em;
+  max-width: 30em;
   grid-area: first-row;
   grid-row: 1 / 2;
   grid-column: 2 / 3;
