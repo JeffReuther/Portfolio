@@ -1,3 +1,5 @@
+"use strict";
+
 function getLocation (item) {
     for (let i = 0; i < itemList.length; i++) {
         // Starts at the first string.
@@ -90,7 +92,6 @@ function singlePath(start, goal) {
 }
 
 function multiPath(items) {
-
     // Gathers up each start and goal points.
     const locationNodes = [];
     let fullPath = [];
@@ -111,11 +112,102 @@ function multiPath(items) {
         const result = singlePath(locationNodes[j - 1], locationNodes[j]);
         fullPath = [...fullPath, ...result];
     }
-    return fullPath;
+    renderCanvas(fullPath);
 }
 
+function renderCanvas(path) {
+    let i = 0;
+    canvas.width = grid[i].length * 20;
+    canvas.height = grid.length * 20;
+
+    for (let j = 0; j < grid[i].length; j++) {
+        if (grid[i][j] === 0) {
+            context.fillStyle = 'white';
+            context.fillRect(20 * j, 20 * i, 20, 20)
+        } else {
+            context.fillStyle = 'rgb(22, 20, 45)';
+            context.fillRect(20 * j, 20 * i, 20, 20)
+        }
+
+        // If it's the end of the current row.
+        if (j + 1 === grid[i].length) {
+            i++;
+
+            // If it's the end of the entire grid.
+            if (i === grid.length) {
+                break;
+            } else {
+                j = -1;
+            }
+        }
+    }
+
+    if (path !== undefined) {
+        for (let k = 0; k < path.length; k++) {
+            setTimeout(function(index) {
+                return function() {
+                    context.fillStyle = 'red';
+                    context.fillRect(20 * path[index][1], 20 * path[index][0], 20, 20);
+
+                    if (index > 2) {
+                        context.fillStyle = 'white';
+                        context.fillRect(20 * path[index - 2][1], 20 * path[index - 2][0], 20, 20);
+                    }
+                };
+            }(k), 250 * k);
+        }
+    }
+}
+
+function renderTodoList(todoText) {
+    const todo = document.createElement("li");
+    todo.setAttribute("class", "todo-item");
+    todo.completed = false;
+  
+    // In case I ever need to update the text via toggle.
+    const text = document.createElement("span");
+    text.setAttribute("class", "todo-text");
+    text.appendChild(document.createTextNode(todoText));
+  
+    const toggleButton = document.createElement("input");
+    toggleButton.setAttribute("type", "checkbox");
+    toggleButton.setAttribute("class", "todo-toggle-button");
+    toggleButton.addEventListener("click", () => toggleTodo(todo));
+  
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("class", "todo-delete-button");
+    deleteButton.addEventListener("click", (event) => deleteTodo(todo, event));
+  
+    todoList.appendChild(todo);
+    todo.appendChild(toggleButton);
+    todo.appendChild(text);
+    todo.appendChild(deleteButton);
+  }
+  
+  function addTodo() {
+    const newTodoText = input.value.trim();
+    if (newTodoText) {
+      input.value = "";
+      renderTodoList(newTodoText);
+    }
+  }
+  
+  function deleteTodo(todo) {
+    todoList.removeChild(todo);
+  }
+  
+  function toggleTodo(todo) {
+    todo.completed = !todo.completed;
+    if (todo.completed === false) {
+      todo.getElementsByClassName("todo-text")[0].style.textDecoration = "solid";
+    } else {
+      todo.getElementsByClassName("todo-text")[0].style.textDecoration = "line-through";
+    }
+  }
+
 // Note:  Entrance starts at [8, 49].
-const grid = [
+let grid = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0],
@@ -158,3 +250,25 @@ const itemList = [
     ['aisle_23', [3,2,25], 'cleaning'],
     ['aisle_24', [3,0,26], 'paper towels']
 ];
+
+// DOM references.
+var input = document.getElementById('newItemInput');
+var canvas = document.getElementById('pathfinder-canvas');
+var context = canvas.getContext('2d');  // Context used in render function.
+var pathfinderButton = document.getElementById("pathfinderButton");
+// Todo list.
+var todoList = document.getElementById("todo-list");
+var addButton = document.getElementById("addTodo");
+
+pathfinderButton.addEventListener('click', function(event) {
+    if (event.target.id === 'pathfinderButton') {
+        multiPath([input.value]);
+    }
+});
+
+addButton.addEventListener("click", () => addTodo() );
+input.addEventListener("keyup",(e) => {
+  if (document.activeElement === input && e.key === "Enter" && input.value !== "") {
+    addTodo();
+  }
+});

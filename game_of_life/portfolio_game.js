@@ -15,11 +15,11 @@
 var life = function() {
     let board = [];
     let initialBoardState = [];
-    let widthInput = parseInt(widthInputField.value);
-    let heightInput = parseInt(heightInputField.value);
-    let iterationInput = parseInt(iterationInputField.value);
-    let canvas = document.getElementById('canvas');
-    let context = canvas.getContext('2d');
+    const widthInput = parseInt(widthInputField.value);
+    const heightInput = parseInt(heightInputField.value);
+    const iterationInput = parseInt(iterationInputField.value);
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
     init = function() {
 // If this is the first time life is run,
         if (resumeButtonClicked === false) {
@@ -37,7 +37,7 @@ var life = function() {
                 resumeButton.disabled = false;
                 resumeButtonClicked = false;
 
-                let stringifyBoardObject = JSON.stringify(board);
+                const stringifyBoardObject = JSON.stringify(board);
                 localStorage.setItem('board', stringifyBoardObject);
                 initialBoardState = JSON.parse(stringifyBoardObject);
                 
@@ -52,7 +52,7 @@ var life = function() {
 // Builds the array (board) of variable width and height,
     // filled with rows of arrays, filled with 1's and 0's.
     randomState = function(width, height) {
-        let variableRow = [];
+        const variableRow = [];
     
         for (let j = 0; j < height; j++) {
             for (let i = 0; i < width; i++) {
@@ -74,7 +74,7 @@ var life = function() {
 
     currentSurroundingTotal = function(board, r, c) { // r = row number, c = column number
         let total = 0;
-        let surroundingArray = [];
+        const surroundingArray = [];
 
         // If the cells near each cell exist, push one or zero to the array.
             // If they do not exist, 'undefined' is pushed to the array.

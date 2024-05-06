@@ -1,3 +1,5 @@
+"use strict";
+
 // Sets up the grid.
 function createGrid(width, height) {
     const allNodes = [];
