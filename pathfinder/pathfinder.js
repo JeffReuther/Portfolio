@@ -17,10 +17,10 @@ function neighbors(node) {
     const result = [];
     for (const dir of dirs) {
         const calculation = [node[0] + dir[0], node[1] + dir[1]];
-        // If the neighboring node is within the bounds of the grid.
+        // If the neighboring node is within the bounds of the gridArray.
         if (calculation[0] >=0 && calculation[1] >= 0 && calculation[0] < 9 && calculation[1] < 56) {
             // If the neighboring node is not a wall.
-            if (grid[calculation[0]][calculation[1]] === 0) {
+            if (gridArray[calculation[0]][calculation[1]] === 0) {
                 result.push(calculation);
             }
         }
@@ -115,26 +115,36 @@ function multiPath(items) {
     renderCanvas(fullPath);
 }
 
-function renderCanvas(path) {
-    let i = 0;
-    canvas.width = grid[i].length * 20;
-    canvas.height = grid.length * 20;
+function checkIfRepeat(repeatPath, path, index) {
+    for (let i = 0; i < repeatPath.length; i++) {
+        if (repeatPath[i] + "" === path[index] + "") {
+            return true;
+        }
+    }
+    return false;
+}
 
-    for (let j = 0; j < grid[i].length; j++) {
-        if (grid[i][j] === 0) {
-            context.fillStyle = 'white';
-            context.fillRect(20 * j, 20 * i, 20, 20)
+function renderCanvas(path) {
+    const repeatPath = [];
+    let i = 0;
+    let repeat = false;
+    canvas.width = gridArray[i].length * 20;
+    canvas.height = gridArray.length * 20;
+
+    for (let j = 0; j < gridArray[i].length; j++) {
+        if (gridArray[i][j] === 0) {
+            context.fillRect(20 * j, 20 * i, 20, 20);
+            context.clearRect(20 * j + 1, 20 * i + 1, 18, 18);
         } else {
-            context.fillStyle = 'rgb(22, 20, 45)';
-            context.fillRect(20 * j, 20 * i, 20, 20)
+            context.fillRect(20 * j, 20 * i, 20, 20);
         }
 
         // If it's the end of the current row.
-        if (j + 1 === grid[i].length) {
+        if (j + 1 === gridArray[i].length) {
             i++;
 
-            // If it's the end of the entire grid.
-            if (i === grid.length) {
+            // If it's the end of the entire gridArray.
+            if (i === gridArray.length) {
                 break;
             } else {
                 j = -1;
@@ -146,12 +156,17 @@ function renderCanvas(path) {
         for (let k = 0; k < path.length; k++) {
             setTimeout(function(index) {
                 return function() {
-                    context.fillStyle = 'red';
-                    context.fillRect(20 * path[index][1], 20 * path[index][0], 20, 20);
-
-                    if (index > 2) {
-                        context.fillStyle = 'white';
-                        context.fillRect(20 * path[index - 2][1], 20 * path[index - 2][0], 20, 20);
+                    repeat = checkIfRepeat(repeatPath, path, index);
+                    if (repeat === true) {
+                        context.fillStyle = "red";
+                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                        context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
+                        repeatPath.splice(index, 1);
+                        repeat = false;
+                    } else {
+                        context.fillStyle = "red";
+                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                        repeatPath.push(path[index]);
                     }
                 };
             }(k), 250 * k);
@@ -207,7 +222,7 @@ function renderTodoList(todoText) {
   }
 
 // Note:  Entrance starts at [8, 49].
-let grid = [
+let gridArray = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0],
@@ -221,47 +236,47 @@ let grid = [
 
 // Third element in the internal array in the section number (for sorting).
 const itemList = [
-    ['aisle_a', [3,55,0], 'precooked'],
-//  ['aisle_a_2], [0,55,01], 'fish'],
-    ['aisle_b', [3,52,1], 'produce'],
-    ['aisle_c', [3,49,2], 'bakery'],
-    ['aisle_1', [3,46,3], 'gluten'],
-    ['aisle_2', [3,44,4], 'superfoods'],
-    ['aisle_3', [3,42,5], 'vitamins'],
-    ['aisle_4', [3,40,6], 'diapers'],
-    ['aisle_5', [3,38,7], 'card shop_a'],
-    ['aisle_6', [3,36,8], 'card shop_b'],
-    ['aisle_7', [3,34,9], 'cookware'],
-    ['aisle_8', [3,32,10], 'candles'],
-    ['aisle_9', [3,30,11], 'beer_a'],
-    ['aisle_10', [3,28,12], 'beer_b'],
-    ['aisle_11', [3,26,13], 'beer_c'],
-    ['aisle_12', [3,24,14], 'wine'],
-    ['aisle_13', [3,22,15], 'candy'],
-    ['aisle_14', [3,20,16], 'trail mix'],
-    ['aisle_15', [3,18,17], 'cookies'],
-    ['aisle_16', [3,16,18], 'soda_a'],
-    ['aisle_17', [3,14,19], 'seltzer'],
-    ['aisle_18', [3,12,20], 'soda_b'],
-    ['aisle_19', [3,10,21], 'energy drinks'],
-    ['aisle_20', [3,8,22], 'coffee'],
-    ['aisle_21', [3,6,23], 'baking'],
-    ['aisle_22', [3,4,24], 'dish soap'],
-    ['aisle_23', [3,2,25], 'cleaning'],
-    ['aisle_24', [3,0,26], 'paper towels']
+    ["aisle_a", [3,55,0], "precooked"],
+//  ["aisle_a_2], [0,55,01], "fish"],
+    ["aisle_b", [3,52,1], "produce"],
+    ["aisle_c", [3,49,2], "bakery"],
+    ["aisle_1", [3,46,3], "gluten"],
+    ["aisle_2", [3,44,4], "superfoods"],
+    ["aisle_3", [3,42,5], "vitamins"],
+    ["aisle_4", [3,40,6], "diapers"],
+    ["aisle_5", [3,38,7], "card shop_a"],
+    ["aisle_6", [3,36,8], "card shop_b"],
+    ["aisle_7", [3,34,9], "cookware"],
+    ["aisle_8", [3,32,10], "candles"],
+    ["aisle_9", [3,30,11], "beer_a"],
+    ["aisle_10", [3,28,12], "beer_b"],
+    ["aisle_11", [3,26,13], "beer_c"],
+    ["aisle_12", [3,24,14], "wine"],
+    ["aisle_13", [3,22,15], "candy"],
+    ["aisle_14", [3,20,16], "trail mix"],
+    ["aisle_15", [3,18,17], "cookies"],
+    ["aisle_16", [3,16,18], "soda_a"],
+    ["aisle_17", [3,14,19], "seltzer"],
+    ["aisle_18", [3,12,20], "soda_b"],
+    ["aisle_19", [3,10,21], "energy drinks"],
+    ["aisle_20", [3,8,22], "coffee"],
+    ["aisle_21", [3,6,23], "baking"],
+    ["aisle_22", [3,4,24], "dish soap"],
+    ["aisle_23", [3,2,25], "cleaning"],
+    ["aisle_24", [3,0,26], "paper towels"]
 ];
 
 // DOM references.
-var input = document.getElementById('newItemInput');
-var canvas = document.getElementById('pathfinder-canvas');
-var context = canvas.getContext('2d');  // Context used in render function.
+var input = document.getElementById("newItemInput");
+var canvas = document.getElementById("pathfinder-canvas");
+var context = canvas.getContext("2d");  // Context used in render function.
 var pathfinderButton = document.getElementById("pathfinderButton");
 // Todo list.
 var todoList = document.getElementById("todo-list");
 var addButton = document.getElementById("addTodo");
 
-pathfinderButton.addEventListener('click', function(event) {
-    if (event.target.id === 'pathfinderButton') {
+pathfinderButton.addEventListener("click", function(event) {
+    if (event.target.id === "pathfinderButton") {
         multiPath([input.value]);
     }
 });
@@ -272,3 +287,5 @@ input.addEventListener("keyup",(e) => {
     addTodo();
   }
 });
+
+renderCanvas();
