@@ -115,7 +115,7 @@ function multiPath(items) {
         const result = singlePath(locationNodes[j - 1], locationNodes[j]);
         fullPath = [...fullPath, ...result];
     }
-    renderCanvas(fullPath, destinationNodes);
+    render(fullPath, destinationNodes);
 }
 
 function checkIfRepeat(repeatPath, path, index) {
@@ -127,7 +127,7 @@ function checkIfRepeat(repeatPath, path, index) {
     return false;
 }
 
-function renderCanvas(path, destinationNodes) {
+function render(path, destinationNodes) {
     const repeatPath = [];
     let i = 0;
     let repeat = false;
@@ -160,7 +160,27 @@ function renderCanvas(path, destinationNodes) {
             setTimeout(function(index) {
                 return function() {
 
+                    // If the path reaches one of the destination tiles.
                     if (path[index] + "" === destinationNodes[0] + "") {
+                        let itemName;
+
+                        // Find the name of the destination item.
+                        for (let l = 0; l < itemList.length; l++) {
+                            if (itemList[l][1] + "" === destinationNodes[0] + "") {
+                                itemName = itemList[l][2];
+                            }
+                        }
+
+                        // Update the todo-list DOM to indicate the item is found.
+                        for (let m = 0; m < document.getElementsByClassName("todo-text").length; m++) {
+                            if (itemName === document.getElementsByClassName("todo-text")[m].innerHTML) {
+                                document.getElementsByClassName("todo-text")[m].style.textDecoration = "line-through";
+                                document.getElementsByClassName("todo-text")[m].parentElement.completed = "true";
+                                document.getElementsByClassName("todo-text")[m].parentElement.children[0].checked = "true";
+                            }
+                        }
+
+                        // Update the canvas DOM color to gold to indicate the item is found.
                         context.fillStyle = "gold";
                         destinationNodes.shift();
                     } else {
@@ -253,40 +273,40 @@ var gridArray = [
 
 // Third element in the internal array in the section number (for sorting).
 var itemList = [
-    ["aisle_a", [3,55,0], "precooked"],
-//  ["aisle_a_2], [0,55,01], "fish"],
-    ["aisle_b", [3,52,1], "produce"],
-    ["aisle_c", [3,49,2], "bakery"],
-    ["aisle_1", [3,46,3], "gluten"],
-    ["aisle_2", [3,44,4], "superfoods"],
-    ["aisle_3", [3,42,5], "vitamins"],
-    ["aisle_4", [3,40,6], "diapers"],
-    ["aisle_5", [3,38,7], "card shop_a"],
-    ["aisle_6", [3,36,8], "card shop_b"],
-    ["aisle_7", [3,34,9], "cookware"],
-    ["aisle_8", [3,32,10], "candles"],
-    ["aisle_9", [3,30,11], "beer_a"],
-    ["aisle_10", [3,28,12], "beer_b"],
-    ["aisle_11", [3,26,13], "beer_c"],
-    ["aisle_12", [3,24,14], "wine"],
-    ["aisle_13", [3,22,15], "candy"],
-    ["aisle_14", [3,20,16], "trail mix"],
-    ["aisle_15", [3,18,17], "cookies"],
-    ["aisle_16", [3,16,18], "soda_a"],
-    ["aisle_17", [3,14,19], "seltzer"],
-    ["aisle_18", [3,12,20], "soda_b"],
-    ["aisle_19", [3,10,21], "energy drinks"],
-    ["aisle_20", [3,8,22], "coffee"],
-    ["aisle_21", [3,6,23], "baking"],
-    ["aisle_22", [3,4,24], "dish soap"],
-    ["aisle_23", [3,2,25], "cleaning"],
-    ["aisle_24", [3,0,26], "paper towels"]
+    ["aisle_a", [3,55,0], "Precooked"],
+//  ["aisle_a_2], [0,55,01], "Fish"],
+    ["aisle_b", [3,52,1], "Produce"],
+    ["aisle_c", [3,49,2], "Bakery"],
+    ["aisle_1", [3,46,3], "Gluten"],
+    ["aisle_2", [3,44,4], "Superfoods"],
+    ["aisle_3", [3,42,5], "Vitamins"],
+    ["aisle_4", [3,40,6], "Diapers"],
+    ["aisle_5", [3,38,7], "Birthday Cards"],
+    ["aisle_6", [3,36,8], "Get Well Cards"],
+    ["aisle_7", [3,34,9], "Cookware"],
+    ["aisle_8", [3,32,10], "Candles"],
+    ["aisle_9", [3,30,11], "General Beer"],
+    ["aisle_10", [3,28,12], "International Beer"],
+    ["aisle_11", [3,26,13], "IPA Beer"],
+    ["aisle_12", [3,24,14], "Wine"],
+    ["aisle_13", [3,22,15], "Candy"],
+    ["aisle_14", [3,20,16], "Trail Mix"],
+    ["aisle_15", [3,18,17], "Cookies"],
+    ["aisle_16", [3,16,18], "Off-brand Sodas"],
+    ["aisle_17", [3,14,19], "Seltzer Water"],
+    ["aisle_18", [3,12,20], "Sodas"],
+    ["aisle_19", [3,10,21], "Energy Drinks"],
+    ["aisle_20", [3,8,22], "Coffee"],
+    ["aisle_21", [3,6,23], "Baking"],
+    ["aisle_22", [3,4,24], "Dish Soap"],
+    ["aisle_23", [3,2,25], "Cleaning"],
+    ["aisle_24", [3,0,26], "Paper Towels"]
 ];
 
 var itemsToDisplay = [];
 
 // DOM references.
-var input = document.getElementById("newItemInput");
+var input = document.getElementById("newItemSelect");
 var canvas = document.getElementById("pathfinder-canvas");
 var context = canvas.getContext("2d");  // Context used in render function.
 var searchButton = document.getElementById("searchButton");
@@ -303,10 +323,10 @@ searchButton.addEventListener("click", function(event) {
 addButton.addEventListener("click", function() {
     addTodo();
 });
-input.addEventListener("keyup", function(event) {
-  if (document.activeElement === input && event.key === "Enter" && input.value !== "") {
-    addTodo();
-  }
-});
+// input.addEventListener("keyup", function(event) {
+//   if (document.activeElement === input && event.key === "Enter" && input.value !== "") {
+//     addTodo();
+//   }
+// });
 
-renderCanvas();
+render();
