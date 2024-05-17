@@ -159,6 +159,10 @@ td {
   height: 25px;
 }
 
+.numbers {
+  padding: 0 15px 0 0;
+}
+
 #body {
   font-family: public_sansregular, serif;
   font-size: 18px;
@@ -200,10 +204,15 @@ td {
 }
 
 #pathfinder-canvas {
-  margin: 50px 0 0 0;
+  margin: 25px 0 0 0;
   float: left;
   top: 25%;
   left: 30%;
+}
+
+#aisle-numbers {
+  float: left;
+  position: absolute;
 }
 
 /* Sets up grid for each row. */
@@ -279,6 +288,10 @@ td {
 
 #todo-list {
   list-style: none;
+}
+
+#todo-list-ui {
+  margin-bottom: 45px;
 }
 
 /* Alert on todo app page. */
