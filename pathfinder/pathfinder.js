@@ -117,7 +117,7 @@ function multiPath(items) {
 
 function checkIfRepeat(repeatPath, path, index) {
     for (let i = 0; i < repeatPath.length; i++) {
-        if (repeatPath[i] + "" === path[index] + "") {
+        if (repeatPath[i] === path[index] + "") {
             return true;
         }
     }
@@ -161,12 +161,12 @@ function renderCanvas(path) {
                         context.fillStyle = "red";
                         context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
                         context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
-                        repeatPath.splice(index, 1);
+                        repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
                         repeat = false;
                     } else {
                         context.fillStyle = "red";
                         context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
-                        repeatPath.push(path[index]);
+                        repeatPath.push(path[index] + "");
                     }
                 };
             }(k), 250 * k);
@@ -187,42 +187,47 @@ function renderTodoList(todoText) {
     const toggleButton = document.createElement("input");
     toggleButton.setAttribute("type", "checkbox");
     toggleButton.setAttribute("class", "todo-toggle-button");
-    toggleButton.addEventListener("click", () => toggleTodo(todo));
+    toggleButton.addEventListener("click", function() { toggleTodo(todo) });
   
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.setAttribute("class", "todo-delete-button");
-    deleteButton.addEventListener("click", (event) => deleteTodo(todo, event));
+    // Note:  This also updates the itemsToDisplay list, or rather, the canvas display.
+    deleteButton.addEventListener("click", function() {
+        itemsToDisplay.splice(itemsToDisplay.indexOf(todo), 1);
+        deleteTodo(todo);
+    });
   
     todoList.appendChild(todo);
     todo.appendChild(toggleButton);
     todo.appendChild(text);
     todo.appendChild(deleteButton);
-  }
+}
   
-  function addTodo() {
+function addTodo() {
     const newTodoText = input.value.trim();
     if (newTodoText) {
-      input.value = "";
-      renderTodoList(newTodoText);
+        itemsToDisplay.push(newTodoText);
+        input.value = "";
+        renderTodoList(newTodoText);
     }
-  }
-  
-  function deleteTodo(todo) {
+}
+
+function deleteTodo(todo) {
     todoList.removeChild(todo);
-  }
-  
-  function toggleTodo(todo) {
+}
+
+function toggleTodo(todo) {
     todo.completed = !todo.completed;
     if (todo.completed === false) {
-      todo.getElementsByClassName("todo-text")[0].style.textDecoration = "solid";
+        todo.getElementsByClassName("todo-text")[0].style.textDecoration = "solid";
     } else {
-      todo.getElementsByClassName("todo-text")[0].style.textDecoration = "line-through";
+        todo.getElementsByClassName("todo-text")[0].style.textDecoration = "line-through";
     }
-  }
+}
 
 // Note:  Entrance starts at [8, 49].
-let gridArray = [
+var gridArray = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0],
@@ -235,7 +240,7 @@ let gridArray = [
 ];
 
 // Third element in the internal array in the section number (for sorting).
-const itemList = [
+var itemList = [
     ["aisle_a", [3,55,0], "precooked"],
 //  ["aisle_a_2], [0,55,01], "fish"],
     ["aisle_b", [3,52,1], "produce"],
@@ -266,6 +271,8 @@ const itemList = [
     ["aisle_24", [3,0,26], "paper towels"]
 ];
 
+var itemsToDisplay = [];
+
 // DOM references.
 var input = document.getElementById("newItemInput");
 var canvas = document.getElementById("pathfinder-canvas");
@@ -277,13 +284,15 @@ var addButton = document.getElementById("addTodo");
 
 pathfinderButton.addEventListener("click", function(event) {
     if (event.target.id === "pathfinderButton") {
-        multiPath([input.value]);
+        multiPath(itemsToDisplay);
     }
 });
 
-addButton.addEventListener("click", () => addTodo() );
-input.addEventListener("keyup",(e) => {
-  if (document.activeElement === input && e.key === "Enter" && input.value !== "") {
+addButton.addEventListener("click", function() {
+    addTodo();
+});
+input.addEventListener("keyup", function(event) {
+  if (document.activeElement === input && event.key === "Enter" && input.value !== "") {
     addTodo();
   }
 });
