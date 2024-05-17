@@ -106,13 +106,16 @@ function multiPath(items) {
         locationNodes[i].pop();
     }
 
+    // Used for keeping track of the item locations to visit (gold tile).
+    const destinationNodes = locationNodes.slice();
+
     locationNodes.unshift([8, 49]);
     locationNodes.push([8, 49]);
     for (let j = 1; j < locationNodes.length; j++) {
         const result = singlePath(locationNodes[j - 1], locationNodes[j]);
         fullPath = [...fullPath, ...result];
     }
-    renderCanvas(fullPath);
+    renderCanvas(fullPath, destinationNodes);
 }
 
 function checkIfRepeat(repeatPath, path, index) {
@@ -124,7 +127,7 @@ function checkIfRepeat(repeatPath, path, index) {
     return false;
 }
 
-function renderCanvas(path) {
+function renderCanvas(path, destinationNodes) {
     const repeatPath = [];
     let i = 0;
     let repeat = false;
@@ -156,15 +159,22 @@ function renderCanvas(path) {
         for (let k = 0; k < path.length; k++) {
             setTimeout(function(index) {
                 return function() {
+
+                    if (path[index] + "" === destinationNodes[0] + "") {
+                        context.fillStyle = "gold";
+                        destinationNodes.shift();
+                    } else {
+                        context.fillStyle = "red";
+                    }
+
+                    // If a path "walks" over a node more than once, it will alternate red and partial red.
                     repeat = checkIfRepeat(repeatPath, path, index);
                     if (repeat === true) {
-                        context.fillStyle = "red";
                         context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
                         context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
                         repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
                         repeat = false;
                     } else {
-                        context.fillStyle = "red";
                         context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
                         repeatPath.push(path[index] + "");
                     }
@@ -207,9 +217,11 @@ function renderTodoList(todoText) {
 function addTodo() {
     const newTodoText = input.value.trim();
     if (newTodoText) {
-        itemsToDisplay.push(newTodoText);
+        if (!itemsToDisplay.includes(newTodoText)) {
+            itemsToDisplay.push(newTodoText);
+            renderTodoList(newTodoText);
+        }
         input.value = "";
-        renderTodoList(newTodoText);
     }
 }
 
@@ -277,13 +289,13 @@ var itemsToDisplay = [];
 var input = document.getElementById("newItemInput");
 var canvas = document.getElementById("pathfinder-canvas");
 var context = canvas.getContext("2d");  // Context used in render function.
-var pathfinderButton = document.getElementById("pathfinderButton");
+var searchButton = document.getElementById("searchButton");
 // Todo list.
 var todoList = document.getElementById("todo-list");
 var addButton = document.getElementById("addTodo");
 
-pathfinderButton.addEventListener("click", function(event) {
-    if (event.target.id === "pathfinderButton") {
+searchButton.addEventListener("click", function(event) {
+    if (event.target.id === "searchButton") {
         multiPath(itemsToDisplay);
     }
 });
