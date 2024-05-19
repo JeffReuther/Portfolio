@@ -92,6 +92,10 @@ function singlePath(start, goal) {
 }
 
 function multiPath(items) {
+    if (items.length === 0) {
+        return;
+    }
+
     // Gathers up each start and goal points.
     const locationNodes = [];
     let fullPath = [];
@@ -115,7 +119,8 @@ function multiPath(items) {
         const result = singlePath(locationNodes[j - 1], locationNodes[j]);
         fullPath = [...fullPath, ...result];
     }
-    render(fullPath, destinationNodes);
+    localStorage.setItem("path", JSON.stringify(fullPath));
+    updateDOM(fullPath, destinationNodes);
 }
 
 function checkIfRepeat(repeatPath, path, index) {
@@ -127,10 +132,8 @@ function checkIfRepeat(repeatPath, path, index) {
     return false;
 }
 
-function render(path, destinationNodes) {
-    const repeatPath = [];
+function renderCanvas() {
     let i = 0;
-    let repeat = false;
     canvas.width = gridArray[i].length * 20;
     canvas.height = gridArray.length * 20;
 
@@ -154,99 +157,90 @@ function render(path, destinationNodes) {
             }
         }
     }
+}
 
-    if (path !== undefined) {
-        for (let k = 0; k < path.length; k++) {
-            setTimeout(function(index) {
-                return function() {
+function renderTodoList() {
+    if (JSON.parse(localStorage.getItem("itemsToDisplay"))) {
+        const itemsToDisplay = JSON.parse(localStorage.getItem("itemsToDisplay"));
 
-                    // If the path reaches one of the destination tiles.
-                    if (path[index] + "" === destinationNodes[0] + "") {
-                        let itemName;
-
-                        // Find the name of the destination item.
-                        for (let l = 0; l < itemList.length; l++) {
-                            if (itemList[l][1] + "" === destinationNodes[0] + "") {
-                                itemName = itemList[l][2];
-                            }
-                        }
-
-                        // Update the todo-list DOM to indicate the item is found.
-                        for (let m = 0; m < document.getElementsByClassName("todo-text").length; m++) {
-                            if (itemName === document.getElementsByClassName("todo-text")[m].innerHTML) {
-                                document.getElementsByClassName("todo-text")[m].style.textDecoration = "line-through";
-                                document.getElementsByClassName("todo-text")[m].parentElement.completed = "true";
-                                document.getElementsByClassName("todo-text")[m].parentElement.children[0].checked = "true";
-                            }
-                        }
-
-                        // Update the canvas DOM color to gold to indicate the item is found.
-                        context.fillStyle = "gold";
-                        destinationNodes.shift();
-                    } else {
-                        context.fillStyle = "red";
-                    }
-
-                    // If a path "walks" over a node more than once, it will alternate red and partial red.
-                    repeat = checkIfRepeat(repeatPath, path, index);
-                    if (repeat === true) {
-                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
-                        context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
-                        repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
-                        repeat = false;
-                    } else {
-                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
-                        repeatPath.push(path[index] + "");
-                    }
-                };
-            }(k), 250 * k);
+        for (let i = 0; i < itemsToDisplay.length; i++) {
+            addTodo(itemsToDisplay[i]);
         }
     }
 }
 
-function renderTodoList(todoText) {
-    const todo = document.createElement("li");
-    todo.setAttribute("class", "todo-item");
-    todo.completed = false;
-  
-    // In case I ever need to update the text via toggle.
-    const text = document.createElement("span");
-    text.setAttribute("class", "todo-text");
-    text.appendChild(document.createTextNode(todoText));
-  
-    const toggleButton = document.createElement("input");
-    toggleButton.setAttribute("type", "checkbox");
-    toggleButton.setAttribute("class", "todo-toggle-button");
-    toggleButton.addEventListener("click", function() { toggleTodo(todo) });
-  
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.setAttribute("class", "todo-delete-button");
-    // Note:  This also updates the itemsToDisplay list, or rather, the canvas display.
-    deleteButton.addEventListener("click", function() {
-        itemsToDisplay.splice(itemsToDisplay.indexOf(todo), 1);
-        deleteTodo(todo);
-    });
-  
-    todoList.appendChild(todo);
-    todo.appendChild(toggleButton);
-    todo.appendChild(text);
-    todo.appendChild(deleteButton);
-}
-  
-function addTodo() {
-    const newTodoText = input.value.trim();
-    if (newTodoText) {
-        if (!itemsToDisplay.includes(newTodoText)) {
-            itemsToDisplay.push(newTodoText);
-            renderTodoList(newTodoText);
+function addTodo(storedTodo) {
+    let newTodoText, itemsToDisplay;
+    let includes = false;
+
+    // If it's not just refreshing the todo list.
+    if (!storedTodo) {
+        newTodoText = input.value.trim();
+    } else {
+        newTodoText = storedTodo;
+    }
+
+    // If it's not just refreshing the todo list.
+    if (!storedTodo) {
+        // If this isn't the first todo item, set up itemsToDisplay.
+        if (JSON.parse(localStorage.getItem("itemsToDisplay"))) {
+            itemsToDisplay = JSON.parse(localStorage.getItem("itemsToDisplay"));
+            // If newTodoText is not in itemsToDisplay, the rest of the code runs.
+            for (let i = 0; i < itemsToDisplay.length; i++) {
+                if (itemsToDisplay[i] === newTodoText) {
+                    includes = true;
+                }
+            }
+            if (!includes) {
+                // Grab the old value for the itemsToDisplay localStorage object and push the newTodoText.
+                itemsToDisplay.push(newTodoText);
+                // Then reset the itemsToDisplay object key.
+                localStorage.setItem("itemsToDisplay", JSON.stringify(itemsToDisplay));
+            }
+        // If this is the first todo item, set up itemsToDisplay.
+        } else {
+            localStorage.setItem("itemsToDisplay", JSON.stringify([newTodoText]));
+            itemsToDisplay = JSON.parse(localStorage.getItem("itemsToDisplay"));
         }
-        input.value = "";
+    }
+
+    if (!includes) {
+        const todo = document.createElement("li");
+        todo.setAttribute("class", "todo-item");
+        todo.completed = false;
+    
+        const text = document.createElement("span");
+        text.setAttribute("class", "todo-text");
+        text.appendChild(document.createTextNode(newTodoText));
+    
+        const toggleButton = document.createElement("input");
+        toggleButton.setAttribute("type", "checkbox");
+        toggleButton.setAttribute("class", "todo-toggle-button");
+        toggleButton.addEventListener("click", function() { toggleTodo(todo) });
+    
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("class", "todo-delete-button");
+        deleteButton.addEventListener("click", function() {
+            itemsToDisplay = JSON.parse(localStorage.getItem("itemsToDisplay"));
+            itemsToDisplay.splice(itemsToDisplay.indexOf(newTodoText), 1);
+            localStorage.setItem("itemsToDisplay", JSON.stringify(itemsToDisplay));
+            deleteTodo(todo, itemsToDisplay);
+        });
+    
+        todoList.appendChild(todo);
+        todo.appendChild(toggleButton);
+        todo.appendChild(text);
+        todo.appendChild(deleteButton);
     }
 }
 
-function deleteTodo(todo) {
+function deleteTodo(todo, itemsToDisplay) {
     todoList.removeChild(todo);
+    // localStorage.setItem("itemsToDisplay", itemsToDisplay);
+    if (itemsToDisplay.length === 0) {
+        localStorage.removeItem("itemsToDisplay");
+    }
 }
 
 function toggleTodo(todo) {
@@ -256,6 +250,58 @@ function toggleTodo(todo) {
     } else {
         todo.getElementsByClassName("todo-text")[0].style.textDecoration = "line-through";
     }
+}
+
+function updateDOM(path, destinationNodes) {
+    const repeatPath = [];
+    let repeat = false;
+    for (let k = 0; k < path.length; k++) {
+        setTimeout(function(index) {
+            return function() {
+                // If the path reaches one of the destination tiles.
+                if (path[index] + "" === destinationNodes[0] + "") {
+                    let itemName;
+
+                    // Find the name of the destination item.
+                    for (let l = 0; l < itemList.length; l++) {
+                        if (itemList[l][1] + "" === destinationNodes[0] + "") {
+                            itemName = itemList[l][2];
+                        }
+                    }
+
+                    // Update the todo-list DOM to indicate the item is found.
+                    for (let m = 0; m < document.getElementsByClassName("todo-text").length; m++) {
+                        if (itemName === document.getElementsByClassName("todo-text")[m].innerHTML) {
+                            document.getElementsByClassName("todo-text")[m].style.textDecoration = "line-through";
+                            document.getElementsByClassName("todo-text")[m].parentElement.completed = "true";
+                            document.getElementsByClassName("todo-text")[m].parentElement.children[0].checked = "true";
+                        }
+                    }
+
+                    // Update the canvas DOM color to gold to indicate the item is found.
+                    context.fillStyle = "gold";
+                    destinationNodes.shift();
+                } else {
+                    context.fillStyle = "red";
+                }
+
+                // If a path "walks" over a node more than once, it will alternate red and partial red.
+                repeat = checkIfRepeat(repeatPath, path, index);
+                if (repeat === true) {
+                    context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                    context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
+                    repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
+                    repeat = false;
+                } else {
+                    context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                    repeatPath.push(path[index] + "");
+                }
+            };
+        }(k), 250 * k);
+    }
+    setTimeout(function() {
+        searchButton.disabled = false;
+    }, 250 * path.length);
 }
 
 // Note:  Entrance starts at [8, 49].
@@ -303,30 +349,52 @@ var itemList = [
     ["aisle_24", [3,0,26], "Paper Towels"]
 ];
 
-var itemsToDisplay = [];
-
 // DOM references.
 var input = document.getElementById("newItemSelect");
 var canvas = document.getElementById("pathfinder-canvas");
 var context = canvas.getContext("2d");  // Context used in render function.
 var searchButton = document.getElementById("searchButton");
+var refreshButton = document.getElementById("refreshButton");
+var pauseButton = document.getElementById("pauseButton");
+var paused = false;
 // Todo list.
 var todoList = document.getElementById("todo-list");
 var addButton = document.getElementById("addTodo");
 
-searchButton.addEventListener("click", function(event) {
-    if (event.target.id === "searchButton") {
-        multiPath(itemsToDisplay);
-    }
-});
-
 addButton.addEventListener("click", function() {
     addTodo();
 });
-// input.addEventListener("keyup", function(event) {
-//   if (document.activeElement === input && event.key === "Enter" && input.value !== "") {
-//     addTodo();
-//   }
-// });
 
-render();
+// DOM buttons.
+searchButton.addEventListener("click", function(event) {
+    if (event.target.id === "searchButton") {
+        searchButton.disabled = true;
+        renderCanvas();
+        multiPath(JSON.parse(localStorage.getItem("itemsToDisplay")));
+    }
+});
+
+refreshButton.addEventListener("click", function() {
+    for (let i = 0; i < todoList.children.length; ) {
+        todoList.removeChild(todoList.children[i]);
+    }
+    renderTodoList();
+    renderCanvas();
+})
+
+pauseButton.addEventListener("click", function() {
+    // Resume.
+    if (paused === true) {
+        paused = false;
+        updateDOM(path, destinationNodes);
+    // Pause.
+    } else {
+        paused = true;
+        clearTimeout(timerId);
+        remainingTime -= Date.now() - startTime;
+    }
+
+});
+
+renderTodoList();
+renderCanvas();

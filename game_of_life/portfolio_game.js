@@ -10,7 +10,7 @@
 // Wrote currentSurroundingTotal and stateChecker.
     // Refactored these from algorithmic method to a functional method.
 
-"use strict";
+//"use strict";
 
 var life = function() {
     let board = [];
@@ -43,7 +43,7 @@ var life = function() {
                 
                 nextBoardState(initialBoardState);
                 if (--iterationInput) loop(iterationInput);
-            }, 75);
+            }, 150);
             playButton.disabled = true;
             resumeButton.disabled = true;
         })(iterationInput);
@@ -52,7 +52,7 @@ var life = function() {
 // Builds the array (board) of variable width and height,
     // filled with rows of arrays, filled with 1's and 0's.
     randomState = function(width, height) {
-        const variableRow = [];
+        let variableRow = [];
     
         for (let j = 0; j < height; j++) {
             for (let i = 0; i < width; i++) {
