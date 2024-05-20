@@ -6,7 +6,7 @@ function getLocation (item) {
         for (let j = 2; j < itemList[i].length; j++) {
             // Returns the array node.
             if (itemList[i][j] === item) {
-                return itemList[i][1];
+                return itemList[i][1].slice();
             }
         }
     }
@@ -254,6 +254,7 @@ function toggleTodo(todo) {
 
 function updateDOM(path, destinationNodes) {
     const repeatPath = [];
+    const itemListCopy = JSON.parse(JSON.stringify(itemList));
     let repeat = false;
     for (let k = 0; k < path.length; k++) {
         setTimeout(function(index) {
@@ -263,9 +264,13 @@ function updateDOM(path, destinationNodes) {
                     let itemName;
 
                     // Find the name of the destination item.
-                    for (let l = 0; l < itemList.length; l++) {
-                        if (itemList[l][1] + "" === destinationNodes[0] + "") {
-                            itemName = itemList[l][2];
+                    for (let l = 0; l < itemListCopy.length; l++) {
+                        const removedValue = itemListCopy[l][1].pop();
+                        if (itemListCopy[l][1] + "" === destinationNodes[0] + "") {
+                            itemName = itemListCopy[l][2];
+                            break;
+                        } else {
+                            itemListCopy[l][1].push(removedValue);
                         }
                     }
 
