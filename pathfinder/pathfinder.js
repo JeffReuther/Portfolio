@@ -316,9 +316,6 @@ function updateDOM(path, destinationNodes) {
         }(k), 250 * k);
         timeouts.push(timeoutId);
     }
-    setTimeout(function() {
-        searchButton.disabled = false;
-    }, 250 * path.length);
 }
 
 // Note:  Entrance starts at [8, 49].
@@ -386,10 +383,14 @@ addButton.addEventListener("click", function() {
 
 // DOM buttons.
 searchButton.addEventListener("click", function(event) {
+    for (let i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
+    timeouts = [];
+
     localStorage.setItem("repeat-path", '[]');
     if (event.target.id === "searchButton") {
         if (JSON.parse(localStorage.getItem("itemsToDisplay")) !== null) {
-            searchButton.disabled = true;
             renderCanvas();
             multiPath(JSON.parse(localStorage.getItem("itemsToDisplay")));
         }
@@ -403,7 +404,6 @@ refreshButton.addEventListener("click", function() {
     for (let i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
-    searchButton.disabled = false;
     renderTodoList();
     renderCanvas();
 })
