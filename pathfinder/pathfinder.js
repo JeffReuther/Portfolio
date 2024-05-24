@@ -112,6 +112,7 @@ function multiPath(items) {
 
     // Used for keeping track of the item locations to visit (gold tile).
     const destinationNodes = locationNodes.slice();
+    localStorage.setItem("destination-nodes", JSON.stringify(destinationNodes));
 
     locationNodes.unshift([8, 49]);
     locationNodes.push([8, 49]);
@@ -256,8 +257,9 @@ function updateDOM(path, destinationNodes) {
     const repeatPath = [];
     const itemListCopy = JSON.parse(JSON.stringify(itemList));
     let repeat = false;
+    startTime = Date.now();
     for (let k = 0; k < path.length; k++) {
-        setTimeout(function(index) {
+        const timeoutId = setTimeout(function(index) {
             return function() {
                 // If the path reaches one of the destination tiles.
                 if (path[index] + "" === destinationNodes[0] + "") {
@@ -286,6 +288,7 @@ function updateDOM(path, destinationNodes) {
                     // Update the canvas DOM color to gold to indicate the item is found.
                     context.fillStyle = "gold";
                     destinationNodes.shift();
+                    localStorage.setItem("destination-nodes", JSON.stringify(destinationNodes));
                 } else {
                     context.fillStyle = "red";
                 }
@@ -303,6 +306,7 @@ function updateDOM(path, destinationNodes) {
                 }
             };
         }(k), 250 * k);
+        timeouts.push(timeoutId);
     }
     setTimeout(function() {
         searchButton.disabled = false;
@@ -361,6 +365,8 @@ var context = canvas.getContext("2d");  // Context used in render function.
 var searchButton = document.getElementById("searchButton");
 var refreshButton = document.getElementById("refreshButton");
 var pauseButton = document.getElementById("pauseButton");
+var timeouts = [];
+var startTime, elapsedTime, remainingPaths;
 var paused = false;
 // Todo list.
 var todoList = document.getElementById("todo-list");
@@ -373,9 +379,11 @@ addButton.addEventListener("click", function() {
 // DOM buttons.
 searchButton.addEventListener("click", function(event) {
     if (event.target.id === "searchButton") {
-        searchButton.disabled = true;
-        renderCanvas();
-        multiPath(JSON.parse(localStorage.getItem("itemsToDisplay")));
+        if (JSON.parse(localStorage.getItem("itemsToDisplay")) !== null) {
+            searchButton.disabled = true;
+            renderCanvas();
+            multiPath(JSON.parse(localStorage.getItem("itemsToDisplay")));
+        }
     }
 });
 
@@ -383,20 +391,36 @@ refreshButton.addEventListener("click", function() {
     for (let i = 0; i < todoList.children.length; ) {
         todoList.removeChild(todoList.children[i]);
     }
+    for (let i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
+    searchButton.disabled = false;
     renderTodoList();
     renderCanvas();
 })
 
 pauseButton.addEventListener("click", function() {
-    // Resume.
-    if (paused === true) {
-        paused = false;
-        updateDOM(path, destinationNodes);
-    // Pause.
-    } else {
+    if (paused === false) {
+        for (let i = 0; i < timeouts.length; i++) {
+            clearTimeout(timeouts[i]);
+        }
+        timeouts = [];
+        remainingPaths = JSON.parse(localStorage.getItem("path"));
+        elapsedTime = Date.now() - startTime;
+        while (elapsedTime > 0) {
+            elapsedTime -= 250;
+            remainingPaths.shift();
+        }
         paused = true;
-        clearTimeout(timerId);
-        remainingTime -= Date.now() - startTime;
+    } else {
+        paused = false;
+        for (let i = 0; i < timeouts.length; i++) {
+            clearTimeout(timeouts[i]);
+        }
+        timeouts = [];
+        if (remainingPaths.length > 0) {
+            updateDOM(remainingPaths, JSON.parse(localStorage.getItem("destination-nodes")));
+        }
     }
 
 });
