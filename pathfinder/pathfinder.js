@@ -238,7 +238,6 @@ function addTodo(storedTodo) {
 
 function deleteTodo(todo, itemsToDisplay) {
     todoList.removeChild(todo);
-    // localStorage.setItem("itemsToDisplay", itemsToDisplay);
     if (itemsToDisplay.length === 0) {
         localStorage.removeItem("itemsToDisplay");
     }
@@ -254,8 +253,9 @@ function toggleTodo(todo) {
 }
 
 function updateDOM(path, destinationNodes) {
-    const repeatPath = [];
+    // Deep copy of the item list.
     const itemListCopy = JSON.parse(JSON.stringify(itemList));
+    let repeatPath = JSON.parse(localStorage.getItem("repeat-path"));
     let repeat = false;
     startTime = Date.now();
     for (let k = 0; k < path.length; k++) {
@@ -293,16 +293,24 @@ function updateDOM(path, destinationNodes) {
                     context.fillStyle = "red";
                 }
 
-                // If a path "walks" over a node more than once, it will alternate red and partial red.
-                repeat = checkIfRepeat(repeatPath, path, index);
-                if (repeat === true) {
-                    context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
-                    context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
-                    repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
-                    repeat = false;
+                // If a path "walks" over a node that isn't a destinationNode more than once, it will alternate red and partial red.
+                if (context.fillStyle === "red") {
+                    repeat = checkIfRepeat(repeatPath, path, index);
+                    if (repeat === true) {
+                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                        context.clearRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 9, 18);
+                        // Removes repeated node from repeatPath.
+                        repeatPath.splice(repeatPath.indexOf(path[index] + ""), 1);
+                        localStorage.setItem("repeat-path", JSON.stringify(repeatPath));
+                        repeat = false;
+                    } else {
+                        context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
+                        // Adds repeated node to repeatPath.
+                        repeatPath.push(path[index] + "");
+                        localStorage.setItem("repeat-path", JSON.stringify(repeatPath));
+                    }
                 } else {
                     context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
-                    repeatPath.push(path[index] + "");
                 }
             };
         }(k), 250 * k);
@@ -378,6 +386,7 @@ addButton.addEventListener("click", function() {
 
 // DOM buttons.
 searchButton.addEventListener("click", function(event) {
+    localStorage.setItem("repeat-path", '[]');
     if (event.target.id === "searchButton") {
         if (JSON.parse(localStorage.getItem("itemsToDisplay")) !== null) {
             searchButton.disabled = true;
@@ -400,29 +409,37 @@ refreshButton.addEventListener("click", function() {
 })
 
 pauseButton.addEventListener("click", function() {
+    // Clear all timeouts.
     if (paused === false) {
         for (let i = 0; i < timeouts.length; i++) {
             clearTimeout(timeouts[i]);
         }
         timeouts = [];
+
+        // Removes the paths already traversed from the localStorage path.
         remainingPaths = JSON.parse(localStorage.getItem("path"));
         elapsedTime = Date.now() - startTime;
-        while (elapsedTime > 0) {
-            elapsedTime -= 250;
+        while (elapsedTime >= 250) {
             remainingPaths.shift();
+            elapsedTime -= 250;
         }
+        // Removes the current "paused at" node.
+        remainingPaths.shift();
+        localStorage.setItem("path", JSON.stringify(remainingPaths));
         paused = true;
     } else {
+        // Clear all timeouts.
         paused = false;
         for (let i = 0; i < timeouts.length; i++) {
             clearTimeout(timeouts[i]);
         }
         timeouts = [];
+
+        // Updates DOM without the paths already traversed.
         if (remainingPaths.length > 0) {
             updateDOM(remainingPaths, JSON.parse(localStorage.getItem("destination-nodes")));
         }
     }
-
 });
 
 renderTodoList();
