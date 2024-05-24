@@ -294,7 +294,7 @@ function updateDOM(path, destinationNodes) {
                 }
 
                 // If a path "walks" over a node that isn't a destinationNode more than once, it will alternate red and partial red.
-                if (context.fillStyle === "red") {
+                if (context.fillStyle === "red" || context.fillStyle === "#ff0000") {
                     repeat = checkIfRepeat(repeatPath, path, index);
                     if (repeat === true) {
                         context.fillRect(20 * path[index][1] + 1, 20 * path[index][0] + 1, 18, 18);
