@@ -404,6 +404,9 @@ refreshButton.addEventListener("click", function() {
     for (let i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
+    localStorage.setItem("path", "[]");
+    localStorage.setItem("destination-nodes", "[]");
+    localStorage.setItem("repeat-path", "[]");
     renderTodoList();
     renderCanvas();
 })
