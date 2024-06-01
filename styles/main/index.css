@@ -132,11 +132,6 @@ td {
   max-width: 100%;
 }
 
-.signs-vertical {
-  grid-column: 4;
-  grid-row: 2 / span 3;
-}
-
 .todo-item {
   height: 40px;
   line-height: 40px;
@@ -157,10 +152,6 @@ td {
 .todo-toggle-button {
   width: 25px;
   height: 25px;
-}
-
-.numbers {
-  padding: 0 15px 0 0;
 }
 
 #body {
@@ -192,17 +183,7 @@ td {
                        "fifth-row   fifth-row";
 }
 
-/* Features in game app. */
-#canvas {
-  border: 3px solid rgb(65, 65, 65);
-  margin: 0;
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
+/* Features in pathfinder app. */
 #pathfinder-canvas {
   margin: 25px 0 0 0;
   float: left;
@@ -275,15 +256,9 @@ td {
   grid-column: 2 / 4;
 }
 
-#life-app-thumbnail, #calc-app-thumbnail, #todo-app-thumbnail {
+#pathfinder-app-thumbnail {
   max-height: 250px;
   max-width: 100%;
-}
-
-#calc-main-body {
-  display: grid;
-  grid-template-columns: 82px 82px 82px 82px;
-  grid-template-rows: 40px 52px 52px 52px 52px;
 }
 
 #todo-list {
@@ -292,38 +267,6 @@ td {
 
 #todo-list-ui {
   margin-bottom: 45px;
-}
-
-/* Alert on todo app page. */
-#alert {
-  font-size: 14px;
-}
-
-/* Calc app selectors start here. */
-#calc-input {
-  font-size: 25px;
-  border: none;
-  background-color: #f3f3f3;
-  grid-row: 1;
-  grid-column: 1 / span 4;
-}
-
-#add-button {
-  grid-column: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-
-#subtract-button {
-  grid-column: 4;
-  grid-row-start: 3;
-  grid-row-end: 4;
-}
-
-#multiply-button {
-  grid-column: 4;
-  grid-row-start: 4;
-  grid-row-end: 5;
 }
 
 #footer {

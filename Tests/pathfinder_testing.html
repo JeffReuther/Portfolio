@@ -152,12 +152,26 @@
   eq(result.length, 26);
 },
 'If a todo is added to the DOM todo list, deleteTodo should remove it.': function() {
-  localStorage.setItem("itemsToDisplay", JSON.stringify(["Precooked"]));
-  const todo = document.getElementById("todo-list").children[0].children[1].innerText;
-  eq(todo, "Precooked");
-  deleteTodo(document.getElementById("todo-list").children[0], JSON.parse(localStorage.getItem("itemsToDisplay")));
-  eq(document.getElementById("todo-list").children[0], undefined);
-  eq(document.getElementById("todo-list").children.length, 0);
+  localStorage.setItem("itemsToDisplay", JSON.stringify([""]));
+  const todo = addTodo();
+  eq(todo.children[1].innerText, "Precooked");
+  todoList.appendChild(todo);
+  deleteTodo(todo, JSON.parse(localStorage.getItem("itemsToDisplay")));
+  eq(todoList.children[0], undefined);
+  eq(todoList.children.length, 0);
+  localStorage.removeItem("itemsToDisplay");
+},
+'It should add a todo based on the input.': function() {
+  const input = document.getElementById("newItemSelect");
+  input.value = "Bakery";
+  const result = addTodo();
+  eq(result.children[1].innerText, "Bakery");
+  input.value = "Precooked";
+  localStorage.removeItem("itemsToDisplay");
+},
+'It should add a todo based on storedTodo (re-rendering the todo-list).': function() {
+  const result = addTodo("Produce");
+  eq(result.children[1].innerText, "Produce");
   localStorage.removeItem("itemsToDisplay");
 },
 'It should return a distance statistic for the length of distance traveled.': function() {
@@ -166,9 +180,6 @@
 'It should connect all paths at the end of the app.': function() {
   fail();
 },
-'It should ': function() {
-  fail();
-}
 
   });
 </script>

@@ -231,10 +231,12 @@ function addTodo(storedTodo) {
             deleteTodo(todo, itemsToDisplay);
         });
     
-        todoList.appendChild(todo);
+        //todoList.appendChild(todo);
         todo.appendChild(toggleButton);
         todo.appendChild(text);
         todo.appendChild(deleteButton);
+        // Just for testing purposes, return the todo.
+        return todo;
     }
 }
 

@@ -404,6 +404,7 @@ refreshButton.addEventListener("click", function() {
     for (let i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
+    timeouts = [];
     localStorage.setItem("path", "[]");
     localStorage.setItem("destination-nodes", "[]");
     localStorage.setItem("repeat-path", "[]");
@@ -414,6 +415,7 @@ refreshButton.addEventListener("click", function() {
 pauseButton.addEventListener("click", function() {
     // Clear all timeouts.
     if (paused === false) {
+        paused = true;
         for (let i = 0; i < timeouts.length; i++) {
             clearTimeout(timeouts[i]);
         }
@@ -429,12 +431,11 @@ pauseButton.addEventListener("click", function() {
         // Removes the current "paused at" node.
         remainingPaths.shift();
         localStorage.setItem("path", JSON.stringify(remainingPaths));
-        paused = true;
     } else {
         // Clear all timeouts.
         paused = false;
-        for (let i = 0; i < timeouts.length; i++) {
-            clearTimeout(timeouts[i]);
+        for (let j = 0; j < timeouts.length; j++) {
+            clearTimeout(timeouts[j]);
         }
         timeouts = [];
 
