@@ -387,6 +387,7 @@ searchButton.addEventListener("click", function(event) {
         clearTimeout(timeouts[i]);
     }
     timeouts = [];
+    paused = false;
 
     localStorage.setItem("repeat-path", '[]');
     if (event.target.id === "searchButton") {
@@ -432,16 +433,18 @@ pauseButton.addEventListener("click", function() {
         remainingPaths.shift();
         localStorage.setItem("path", JSON.stringify(remainingPaths));
     } else {
-        // Clear all timeouts.
-        paused = false;
-        for (let j = 0; j < timeouts.length; j++) {
-            clearTimeout(timeouts[j]);
-        }
-        timeouts = [];
+        if (paused === true) {
+            // Clear all timeouts.
+            paused = false;
+            for (let j = 0; j < timeouts.length; j++) {
+                clearTimeout(timeouts[j]);
+            }
+            timeouts = [];
 
-        // Updates DOM without the paths already traversed.
-        if (remainingPaths.length > 0) {
-            updateDOM(remainingPaths, JSON.parse(localStorage.getItem("destination-nodes")));
+            // Updates DOM without the paths already traversed.
+            if (remainingPaths.length > 0) {
+                updateDOM(remainingPaths, JSON.parse(localStorage.getItem("destination-nodes")));
+            }
         }
     }
 });

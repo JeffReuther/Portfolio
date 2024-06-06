@@ -154,6 +154,10 @@ td {
   height: 25px;
 }
 
+.numbers {
+  padding: 7.33px;
+}
+
 #body {
   font-family: public_sansregular, serif;
   font-size: 18px;
@@ -194,6 +198,31 @@ td {
 #aisle-numbers {
   float: left;
   position: absolute;
+}
+
+#newItemSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 30%;
+  font-size: 1.15rem;
+  padding:  0.675em 6em 0.675em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+
+#refreshButton, #pauseButton, #addTodo, #searchButton {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #1b1b1b;
+  color: #f0f0f0;
 }
 
 /* Sets up grid for each row. */
