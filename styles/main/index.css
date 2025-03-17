@@ -124,7 +124,7 @@ td {
   background-color: #e6e6e6;
 }
 
-/* Each main body (home, todo, game, calc) is offset from the navbar. */
+/* Each main body (home, pathfinder) is offset from the navbar. */
 .main-body {
   float: left;
   padding: 0 0 0 300px;
@@ -358,7 +358,7 @@ td {
     padding: 0;
   }
 
-  #homepage-nav, #calc-nav, #game-nav, #todo-nav {
+  #homepage-nav {
     display: none;
   }
 

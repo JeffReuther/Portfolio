@@ -29,28 +29,28 @@ function neighbors(node) {
 }
   
 function breadthSearch(start) {
-const reached = [start];
-const queue = [start];
-const cameFrom = [];
-while (queue.length > 0) {
-    // As long as queue is greater than zero, each neighbor will be compared and either added
-        // to reached, if it's not reached yet, or discarded.
-    const currentNode = queue.shift();
-    const currentNeighbors = neighbors(currentNode);
-    for (let i = 0; i < currentNeighbors.length; i++) {
-        if (!
-            (reached.some(arr => (arr + "") === (currentNeighbors[i] + "")))
-        ) {
-            reached.push(currentNeighbors[i]);
-            queue.push(currentNeighbors[i]);
-            // cameFrom will keep a separate array for each distinct node, one for each parent.
-            cameFrom.push(currentNode);
+    const reached = [start];
+    const queue = [start];
+    const cameFrom = [];
+    while (queue.length > 0) {
+        // As long as queue is greater than zero, each neighbor will be compared and either added
+            // to reached, if it's not reached yet, or discarded.
+        const currentNode = queue.shift();
+        const currentNeighbors = neighbors(currentNode);
+        for (let i = 0; i < currentNeighbors.length; i++) {
+            if (!
+                (reached.some(arr => (arr + "") === (currentNeighbors[i] + "")))
+            ) {
+                reached.push(currentNeighbors[i]);
+                queue.push(currentNeighbors[i]);
+                // cameFrom will keep a separate array for each distinct node, one for each parent.
+                cameFrom.push(currentNode);
+            }
         }
     }
-}
-// Removes the first element from the reached array, since it's the "start" node.
-reached.shift();
-return [reached, cameFrom];
+    // Removes the first element from the reached array, since it's the "start" node.
+    reached.shift();
+    return [reached, cameFrom];
 }
 
 function singlePath(start, goal) {
