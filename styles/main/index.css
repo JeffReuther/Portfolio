@@ -238,7 +238,7 @@ td {
   grid-area: hero-photo;
   grid-row: 1 / 2;
   grid-column: 3 / 4;
-  max-height: 15em;
+  max-height: 20em;
   float: left;
 }
 
