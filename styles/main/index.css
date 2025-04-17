@@ -358,7 +358,7 @@ td {
     padding: 0;
   }
 
-  #homepage-nav {
+  #homepage-nav, #pathfinder-nav {
     display: none;
   }
 

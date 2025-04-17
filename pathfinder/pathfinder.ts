@@ -1,13 +1,17 @@
-const getLocation = (item: string): number => {
+const getLocation = (item: string): number | undefined => {
   for (let i = 0; i < itemList.length; i++) {
     // Starts at the first string.
     for (let j = 2; j < itemList[i].length; j++) {
       // Returns the array node.
       if (itemList[i][j] === item) {
-        return itemList[i][1].slice();
+        const location = itemList[i][1];
+        if (Array.isArray(location) && typeof location[0] === 'number') {
+          return location[0];
+        }
       }
     }
   }
+  return undefined; // Explicitly return undefined if no match is found.
 }
 
 const neighbors = (node: number[]): number[][] => {

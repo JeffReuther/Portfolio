@@ -2,18 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>Jeffrey Reuther Personal Portfolio</title>
-    <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../styles/main/index.css">
-</head>
-
-<body id="body">
-    <div id="page-container">
-        <nav id="todo-nav" class="nav" >
-            <a href="../index.html" class="nav-title"><h1>Jeffrey Reuther</h1></a>
+    <head>
+      <title>Jeffrey Reuther Personal Portfolio</title>
+      <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="../styles/main/index.css">
+    </head>
+    
+    <body id="body">
+      <div id="page-container">
+        <nav id="pathfinder-nav" class="nav" >
+          <a href="../index.html" class="nav-title"><h1>Jeffrey Reuther</h1></a>
             <p class="nav-link-content">
-                <a href="../index.html#first-row"><button class="nav-link"> Intro </button></a> <br />
+              <a href="../index.html#first-row"><button class="nav-link"> Intro </button></a> <br />
                 <a href="../index.html#second-row"><button class="nav-link"> Skills </button></a> <br />
                 <a href="../index.html#third-row"><button class="nav-link"> Projects </button></a>
                 <a href="../index.html#fourth-row"><button class="nav-link"> Experience </button></a>
@@ -21,49 +21,49 @@
             </p>
         </nav>
         <nav id="mobile-nav">
-            <p class="nav-link-content-mobile">
-                <a href="../index.html#third-row"><button class="nav-link-mobile"> Back </button></a>
-            </p>
+          <p class="nav-link-content-mobile">
+            <a href="../index.html#third-row"><button class="nav-link-mobile"> Back </button></a>
+          </p>
         </nav>
-        <section class="main-body">
+        <section id="pathfinder-main" class="main-body">
           <h1>Grocery store search and pathfinder</h1>
-
-          <div id="todo-list"></div>
-          <div id="todo-list-ui">
-            <button id="addTodo">Add</button>
-            <!-- <input type="text" maxlength="30" id="newItemInput" placeholder="Add a new item"> -->
-            <select id="newItemSelect" name="newItemSelect">
-                <option value="Precooked">Precooked</option>
-                <option value="Produce">Produce</option>
-                <option value="Bakery">Bakery</option>
-                <option value="Gluten">Gluten</option>
-                <option value="Vitamins">Vitamins</option>
-                <option value="Diapers">Diapers</option>
-                <option value="Birthday Cards">Birthday Cards</option>
-                <option value="Get Well Cards">Get Well Cards</option>
-                <option value="Cookware">Cookware</option>
-                <option value="Candles">Candles</option>
-                <option value="General Beer">General Beer</option>
-                <option value="International Beer">International Beer</option>
-                <option value="IPA Beer">IPA Beer</option>
-                <option value="Wine">Wine</option>
-                <option value="Candy">Candy</option>
-                <option value="Trail Mix">Trail Mix</option>
-                <option value="Cookies">Cookies</option>
-                <option value="Off-brand Sodas">Off-brand Sodas</option>
-                <option value="Seltzer Water">Seltzer Water</option>
-                <option value="Sodas">Sodas</option>
-                <option value="Energy Drinks">Energy Drinks</option>
-                <option value="Coffee">Coffee</option>
-                <option value="Baking">Baking</option>
-                <option value="Dish Soap">Dish Soap</option>
-                <option value="Cleaning">Cleaning</option>
-                <option value="Paper Towels">Paper Towels</option>
-            </select>
+        
+        <div id="todo-list"></div>
+        <div id="todo-list-ui">
+          <button id="addTodo">Add</button>
+          <!-- <input type="text" maxlength="30" id="newItemInput" placeholder="Add a new item"> -->
+          <select id="newItemSelect" name="newItemSelect">
+            <option value="Precooked">Precooked</option>
+            <option value="Produce">Produce</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Gluten">Gluten</option>
+            <option value="Vitamins">Vitamins</option>
+            <option value="Diapers">Diapers</option>
+            <option value="Birthday Cards">Birthday Cards</option>
+            <option value="Get Well Cards">Get Well Cards</option>
+            <option value="Cookware">Cookware</option>
+            <option value="Candles">Candles</option>
+            <option value="General Beer">General Beer</option>
+            <option value="International Beer">International Beer</option>
+            <option value="IPA Beer">IPA Beer</option>
+            <option value="Wine">Wine</option>
+            <option value="Candy">Candy</option>
+            <option value="Trail Mix">Trail Mix</option>
+            <option value="Cookies">Cookies</option>
+            <option value="Off-brand Sodas">Off-brand Sodas</option>
+            <option value="Seltzer Water">Seltzer Water</option>
+            <option value="Sodas">Sodas</option>
+            <option value="Energy Drinks">Energy Drinks</option>
+            <option value="Coffee">Coffee</option>
+            <option value="Baking">Baking</option>
+            <option value="Dish Soap">Dish Soap</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Paper Towels">Paper Towels</option>
+          </select>
             <button type="text" id="searchButton">Search</button>
             <button id="refreshButton">Refresh</button>
             <button id="pauseButton">Pause</button>
-          </div>
+        </div>
           <span id="aisle-numbers">
             <span class="numbers">24</span>
             <span class="numbers">23</span>
@@ -91,9 +91,8 @@
             <span class="numbers">01</span>
           </span>
           <canvas height="180" width="1120" id="pathfinder-canvas"></canvas>
-        </section>
-    </div>
-</body>
-
-  <script src="pathfinder.js"></script>
-
+            </section>
+        </div>
+    <script src="pathfinder.js"></script>
+    </body>
+</html>
